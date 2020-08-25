@@ -22,6 +22,7 @@
 	<modules>
 		<module>domain</module>
 		<module>application</module>
-	</modules>
+        <module>persistence</module>
+    </modules>
 
 </project>
