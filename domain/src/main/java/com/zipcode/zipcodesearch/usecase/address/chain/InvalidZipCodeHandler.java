@@ -1,6 +1,7 @@
 package com.zipcode.zipcodesearch.usecase.address.chain;
 
-import com.zipcode.zipcodesearch.entity.Address;
+
+import com.zipcode.zipcodesearch.model.Address;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -27,7 +28,7 @@ public class InvalidZipCodeHandler implements AddressSearchChain {
     }
 
     private boolean isInvalid(String zipCode) {
-        Pattern zipCodeExpectedPattern = Pattern.compile("[0-9]{5}-[0-9]{3}");
+        Pattern zipCodeExpectedPattern = Pattern.compile("[0-9]{8}");
         Matcher zipCodeMatcher = zipCodeExpectedPattern.matcher(zipCode);
         return !zipCodeMatcher.find();
     }

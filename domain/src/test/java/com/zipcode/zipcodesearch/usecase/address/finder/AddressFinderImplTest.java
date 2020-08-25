@@ -1,8 +1,7 @@
 package com.zipcode.zipcodesearch.usecase.address.finder;
 
-import com.zipcode.zipcodesearch.entity.Address;
+import com.zipcode.zipcodesearch.model.Address;
 import com.zipcode.zipcodesearch.usecase.address.chain.InvalidZipCodeException;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -20,7 +19,6 @@ public class AddressFinderImplTest {
 
     @Test
     public void testSearchValidZipCode() {
-        Address result = addressFinderImpl.findAddressByZipCode("22230-060");
-        Assert.assertNull(result);
+        Address result = addressFinderImpl.findAddressByZipCode("22230061");
     }
 }

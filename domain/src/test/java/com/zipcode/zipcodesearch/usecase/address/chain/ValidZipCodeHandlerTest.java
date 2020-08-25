@@ -1,5 +1,6 @@
 package com.zipcode.zipcodesearch.usecase.address.chain;
 
+import com.zipcode.zipcodesearch.model.Address;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -13,8 +14,10 @@ public class ValidZipCodeHandlerTest {
 
     @Test
     public void testValidZipCodeFound() {
-        String zipCode = "22230-060";
+        String zipCode = "22230061";
 
-        validZipCodeHandler.check(zipCode);
+        Address result = validZipCodeHandler.check(zipCode);
+
+        System.out.println(result);
     }
 }

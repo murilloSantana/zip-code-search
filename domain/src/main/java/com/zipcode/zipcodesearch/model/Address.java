@@ -1,7 +1,13 @@
-package com.zipcode.zipcodesearch.entity;
+package com.zipcode.zipcodesearch.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Address {
     private String zipCode;
