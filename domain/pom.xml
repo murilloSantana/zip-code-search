@@ -4,11 +4,32 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.zipcode</groupId>
 		<artifactId>zip-code-search</artifactId>
+		<groupId>com.zipcode</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>zip-code-search-domain</artifactId>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.12</version>
+			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>3.3.3</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>
