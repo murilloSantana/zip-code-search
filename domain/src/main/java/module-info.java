@@ -1,5 +1,7 @@
 module com.zip.code.search.modules.domain {
     exports com.zipcode.zipcodesearch.usecase;
 
-    requires lombok;
+    requires static lombok;
+
+    opens com.zipcode.zipcodesearch.entity;
 }
