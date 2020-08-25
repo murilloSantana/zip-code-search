@@ -14,7 +14,7 @@ public class AddressFinderImplTest {
 
     @Test(expected = InvalidZipCodeException.class)
     public void testSearchInvalidZipCode() {
-        addressFinderImpl.findAddressByZipCode("22230060");
+        addressFinderImpl.findAddressByZipCode("2223006");
     }
 
     @Test

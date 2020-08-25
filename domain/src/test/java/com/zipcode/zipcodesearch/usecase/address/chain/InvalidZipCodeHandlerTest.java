@@ -20,19 +20,19 @@ public class InvalidZipCodeHandlerTest {
 
     @Test(expected = InvalidZipCodeException.class)
     public void testInvalidZipCode() {
-        String zipCode = "22230060";
+        String zipCode = "2223006";
         invalidZipCodeHandler.check(zipCode);
     }
 
     @Test
     public void testValidZipCode() {
-        String zipCode = "22230-060";
+        String zipCode = "22230060";
         invalidZipCodeHandler.check(zipCode);
     }
 
     @Test
     public void testValidZipCodeWithNextHandler() {
-        String zipCode = "22230-060";
+        String zipCode = "22230060";
 
         Address addressExpected = Address
                 .builder()
@@ -40,7 +40,7 @@ public class InvalidZipCodeHandlerTest {
                 .city("Rio de Janeiro")
                 .district("Flamengo")
                 .street("Rua Marques de Abrantes")
-                .zipCode("22230-060")
+                .zipCode("22230060")
                 .build();
 
         Mockito.when(addressSearchChain.check(zipCode)).thenReturn(addressExpected);
@@ -52,7 +52,7 @@ public class InvalidZipCodeHandlerTest {
 
     @Test
     public void testValidZipCodeWithRealNextHandler() {
-        String zipCode = "22230-060";
+        String zipCode = "22230060";
 
         Address addressExpected = Address
                 .builder()
@@ -60,7 +60,7 @@ public class InvalidZipCodeHandlerTest {
                 .city("Duque de Caxias")
                 .district("PQ. Lafaiete")
                 .street("Rua David de Oliveira")
-                .zipCode("25015-210")
+                .zipCode("25015210")
                 .build();
 
         AddressSearchChain addressSearchChain = new AddressSearchChain() {
