@@ -1,4 +1,4 @@
-package com.zipcode.zipcodesearch;
+package com.zipcode.zipcodesearch.entity;
 
 public class ZipCode {
     private String cep;
