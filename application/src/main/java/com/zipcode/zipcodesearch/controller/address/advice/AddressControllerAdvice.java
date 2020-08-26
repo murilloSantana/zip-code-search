@@ -1,4 +1,4 @@
-package com.zipcode.zipcodesearch.controller.advice;
+package com.zipcode.zipcodesearch.controller.address.advice;
 
 import com.zipcode.zipcodesearch.model.InvalidZipCodeException;
 import org.springframework.http.HttpStatus;

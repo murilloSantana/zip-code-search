@@ -1,5 +1,6 @@
 package com.zipcode.zipcodesearch.dataprovider.model;
 
+import com.zipcode.zipcodesearch.model.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,4 +26,14 @@ public class AddressEntity {
     private String city;
     private String state;
 
+    public static Address addressEntityToAddress(AddressEntity addressEntity) {
+        return Address
+                .builder()
+                .state(addressEntity.getState())
+                .city(addressEntity.getCity())
+                .district(addressEntity.getDistrict())
+                .street(addressEntity.getStreet())
+                .zipCode(addressEntity.getZipCode())
+                .build();
+    }
 }
