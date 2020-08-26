@@ -1,4 +1,4 @@
-package com.zipcode.zipcodesearch.entity;
+package com.zipcode.zipcodesearch.dataprovider.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

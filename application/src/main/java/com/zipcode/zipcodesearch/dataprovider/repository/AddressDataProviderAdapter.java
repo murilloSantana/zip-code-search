@@ -1,4 +1,4 @@
-package com.zipcode.zipcodesearch.repository;
+package com.zipcode.zipcodesearch.dataprovider.repository;
 
 import com.zipcode.zipcodesearch.adapter.AddressDataProvider;
 import com.zipcode.zipcodesearch.model.Address;
@@ -15,7 +15,6 @@ public class AddressDataProviderAdapter implements AddressDataProvider {
 
     @Override
     public Optional<Address> findByZipCode(String zipCode) {
-        System.out.println(addressRepository.findByZipCode(zipCode));
         return Optional.empty();
     }
 }

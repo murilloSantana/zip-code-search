@@ -1,7 +1,7 @@
-package com.zipcode.zipcodesearch.repository;
+package com.zipcode.zipcodesearch.dataprovider.repository;
 
 
-import com.zipcode.zipcodesearch.entity.AddressEntity;
+import com.zipcode.zipcodesearch.dataprovider.model.AddressEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
