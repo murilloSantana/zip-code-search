@@ -1,8 +1,7 @@
 package com.zipcode.zipcodesearch.usecase.address.chain;
 
-import com.zipcode.zipcodesearch.entity.AddressEntity;
+import com.zipcode.zipcodesearch.adapter.AddressRepository;
 import com.zipcode.zipcodesearch.model.Address;
-import com.zipcode.zipcodesearch.repository.AddressRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,9 +32,13 @@ public class ValidZipCodeHandlerTest {
                 .district("Duque de Caxias")
                 .build();
 
-        AddressEntity addressEntityMock = new AddressEntity(zipCodeExpected, "Duque de Caxias");
+        Address addressMock = Address
+                .builder()
+                .zipCode(zipCodeExpected)
+                .district("Duque de Caxias")
+                .build();;
 
-        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressEntityMock));
+        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
         Address addressActual = validZipCodeHandler.check(zipCode);
 
@@ -59,9 +62,13 @@ public class ValidZipCodeHandlerTest {
                 .district("Duque de Caxias")
                 .build();
 
-        AddressEntity addressEntityMock = new AddressEntity(zipCodeExpected, "Duque de Caxias");
+        Address addressMock = Address
+                .builder()
+                .zipCode(zipCodeExpected)
+                .district("Duque de Caxias")
+                .build();
 
-        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressEntityMock));
+        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
         Address addressActual = validZipCodeHandler.check(zipCode);
 
@@ -85,9 +92,13 @@ public class ValidZipCodeHandlerTest {
                 .district("Duque de Caxias")
                 .build();
 
-        AddressEntity addressEntityMock = new AddressEntity(zipCodeExpected, "Duque de Caxias");
+        Address addressMock = Address
+                .builder()
+                .zipCode(zipCodeExpected)
+                .district("Duque de Caxias")
+                .build();
 
-        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressEntityMock));
+        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
         Address addressActual = validZipCodeHandler.check(zipCode);
 
@@ -111,9 +122,13 @@ public class ValidZipCodeHandlerTest {
                 .district("Duque de Caxias")
                 .build();
 
-        AddressEntity addressEntityMock = new AddressEntity(zipCodeExpected, "Duque de Caxias");
+        Address addressMock = Address
+                .builder()
+                .zipCode(zipCodeExpected)
+                .district("Duque de Caxias")
+                .build();
 
-        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressEntityMock));
+        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
         Address addressActual = validZipCodeHandler.check(zipCode);
 
@@ -137,9 +152,13 @@ public class ValidZipCodeHandlerTest {
                 .district("Duque de Caxias")
                 .build();
 
-        AddressEntity addressEntityMock = new AddressEntity(zipCodeExpected, "Duque de Caxias");
+        Address addressMock = Address
+                .builder()
+                .zipCode(zipCodeExpected)
+                .district("Duque de Caxias")
+                .build();
 
-        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressEntityMock));
+        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
         Address addressActual = validZipCodeHandler.check(zipCode);
 
@@ -163,9 +182,13 @@ public class ValidZipCodeHandlerTest {
                 .district("Duque de Caxias")
                 .build();
 
-        AddressEntity addressEntityMock = new AddressEntity(zipCodeExpected, "Duque de Caxias");
+        Address addressMock = Address
+                .builder()
+                .zipCode(zipCodeExpected)
+                .district("Duque de Caxias")
+                .build();
 
-        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressEntityMock));
+        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
         Address addressActual = validZipCodeHandler.check(zipCode);
 
@@ -189,9 +212,13 @@ public class ValidZipCodeHandlerTest {
                 .district("Duque de Caxias")
                 .build();
 
-        AddressEntity addressEntityMock = new AddressEntity(zipCodeExpected, "Duque de Caxias");
+        Address addressMock = Address
+                .builder()
+                .zipCode(zipCodeExpected)
+                .district("Duque de Caxias")
+                .build();
 
-        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressEntityMock));
+        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
         Address addressActual = validZipCodeHandler.check(zipCode);
 
@@ -215,9 +242,13 @@ public class ValidZipCodeHandlerTest {
                 .district("Duque de Caxias")
                 .build();
 
-        AddressEntity addressEntityMock = new AddressEntity(zipCodeExpected, "Duque de Caxias");
+        Address addressMock = Address
+                .builder()
+                .zipCode(zipCodeExpected)
+                .district("Duque de Caxias")
+                .build();
 
-        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressEntityMock));
+        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
         Address addressActual = validZipCodeHandler.check(zipCode);
 
@@ -241,9 +272,13 @@ public class ValidZipCodeHandlerTest {
                 .district("Duque de Caxias")
                 .build();
 
-        AddressEntity addressEntityMock = new AddressEntity(zipCodeExpected, "Duque de Caxias");
+        Address addressMock = Address
+                .builder()
+                .zipCode(zipCodeExpected)
+                .district("Duque de Caxias")
+                .build();
 
-        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressEntityMock));
+        Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
         Address addressActual = validZipCodeHandler.check(zipCode);
 

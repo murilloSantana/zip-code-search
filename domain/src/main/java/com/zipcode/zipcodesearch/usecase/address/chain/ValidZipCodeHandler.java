@@ -1,19 +1,17 @@
 package com.zipcode.zipcodesearch.usecase.address.chain;
 
-import com.zipcode.zipcodesearch.entity.AddressEntity;
+import com.zipcode.zipcodesearch.adapter.AddressRepository;
 import com.zipcode.zipcodesearch.model.Address;
-import com.zipcode.zipcodesearch.repository.AddressRepository;
-import com.zipcode.zipcodesearch.repository.AddressRepositoryImpl;
 
 import java.util.Optional;
 
 public class ValidZipCodeHandler implements AddressSearchChain {
 
     private AddressSearchChain addressSearchChain;
-    private AddressRepository addressRepository;
+    private final AddressRepository addressRepository;
 
-    public ValidZipCodeHandler() {
-        this.addressRepository = new AddressRepositoryImpl();
+    public ValidZipCodeHandler(AddressRepository addressRepository) {
+       this.addressRepository = addressRepository;
     }
 
     @Override
@@ -27,7 +25,6 @@ public class ValidZipCodeHandler implements AddressSearchChain {
         StringBuilder builder = new StringBuilder(zipCode);
 
         Address address = this.findRecursiveZipCode(builder, cepSize - 1)
-                .map((addressEntity) -> parseAddressEntityToAddress(addressEntity))
                 .orElse(null);
 
         return Optional
@@ -36,26 +33,16 @@ public class ValidZipCodeHandler implements AddressSearchChain {
                 .orElse(address);
     }
 
-    public Optional<AddressEntity> findRecursiveZipCode(StringBuilder zipCodeBuilder, int positionToReplace) {
+    public Optional<Address> findRecursiveZipCode(StringBuilder zipCodeBuilder, int positionToReplace) {
         String zipCode = zipCodeBuilder.toString();
-        Optional<AddressEntity> addressEntity = addressRepository.findByZipCode(zipCode);
+        Optional<Address> address = addressRepository.findByZipCode(zipCode);
 
-        if(positionToReplace > -1 && !addressEntity.isPresent()) {
+        if(positionToReplace > -1 && !address.isPresent()) {
             zipCodeBuilder.setCharAt(positionToReplace, '0');
             return findRecursiveZipCode(zipCodeBuilder, --positionToReplace);
         }
 
-        return addressEntity;
+        return address;
     }
 
-    public Address parseAddressEntityToAddress(AddressEntity addressEntity) {
-        return Address
-                .builder()
-                .state(addressEntity.getState())
-                .city(addressEntity.getCity())
-                .district(addressEntity.getDistrict())
-                .street(addressEntity.getStreet())
-                .zipCode(addressEntity.getZipCode())
-                .build();
-    }
 }

@@ -11,4 +11,11 @@
 
     <artifactId>zip-code-search-persistence</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.zipcode</groupId>
+            <artifactId>zip-code-search-domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>
