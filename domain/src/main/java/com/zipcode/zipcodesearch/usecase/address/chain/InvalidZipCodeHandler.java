@@ -2,6 +2,7 @@ package com.zipcode.zipcodesearch.usecase.address.chain;
 
 
 import com.zipcode.zipcodesearch.model.Address;
+import com.zipcode.zipcodesearch.model.InvalidZipCodeException;
 
 import java.util.Optional;
 import java.util.regex.Matcher;

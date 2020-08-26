@@ -1,4 +1,4 @@
-package com.zipcode.zipcodesearch.usecase.address.chain;
+package com.zipcode.zipcodesearch.model;
 
 public class InvalidZipCodeException extends RuntimeException {
     public InvalidZipCodeException(String message) {
