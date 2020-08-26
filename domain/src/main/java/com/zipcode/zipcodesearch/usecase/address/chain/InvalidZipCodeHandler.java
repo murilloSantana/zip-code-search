@@ -18,14 +18,14 @@ public class InvalidZipCodeHandler implements AddressSearchChain {
     }
 
     @Override
-    public Address check(String zipCode) {
+    public Optional<Address> check(String zipCode) {
 
-        if(this.isInvalid(zipCode)) throw new InvalidZipCodeException("CEP inválido");
+        if(this.isInvalid(zipCode)) throw new InvalidZipCodeException("CPF Inválido");
 
         return Optional
                 .ofNullable(this.addressSearchChain)
                 .map((addressSearchChain) -> addressSearchChain.check(zipCode))
-                .orElse(null);
+                .orElse(Optional.empty());
     }
 
     private boolean isInvalid(String zipCode) {

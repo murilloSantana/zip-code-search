@@ -20,17 +20,18 @@ public class ValidZipCodeHandler implements AddressSearchChain {
     }
 
     @Override
-    public Address check(String zipCode) {
+    public Optional<Address> check(String zipCode) {
         int cepSize = 8;
         StringBuilder builder = new StringBuilder(zipCode);
 
-        Address address = this.findRecursiveZipCode(builder, cepSize - 1)
-                .orElse(null);
+        Optional<Address> address = this.findRecursiveZipCode(builder, cepSize - 1);
 
-        return Optional
-                .ofNullable(this.addressSearchChain)
-                .map((addressSearchChain) -> addressSearchChain.check(zipCode))
-                .orElse(address);
+        return address.or(() ->
+                Optional
+                        .ofNullable(this.addressSearchChain)
+                        .map((addressSearchChain) -> addressSearchChain.check(zipCode))
+                        .orElse(Optional.empty())
+        );
     }
 
     public Optional<Address> findRecursiveZipCode(StringBuilder zipCodeBuilder, int positionToReplace) {

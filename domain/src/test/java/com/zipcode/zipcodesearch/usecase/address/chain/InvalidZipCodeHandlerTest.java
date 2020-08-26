@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Optional;
+
 @RunWith(MockitoJUnitRunner.class)
 public class InvalidZipCodeHandlerTest {
 
@@ -44,11 +46,11 @@ public class InvalidZipCodeHandlerTest {
                 .zipCode("22230060")
                 .build();
 
-        Mockito.when(addressSearchChain.check(zipCode)).thenReturn(addressExpected);
+        Mockito.when(addressSearchChain.check(zipCode)).thenReturn(Optional.ofNullable(addressExpected));
 
-        Address addressActual = invalidZipCodeHandler.check(zipCode);
+        Optional<Address> addressActual = invalidZipCodeHandler.check(zipCode);
 
-        Assert.assertEquals(addressExpected, addressActual);
+        Assert.assertEquals(addressExpected, addressActual.get());
     }
 
     @Test
@@ -71,14 +73,14 @@ public class InvalidZipCodeHandlerTest {
             }
 
             @Override
-            public Address check(String zipCode) {
-                return addressExpected;
+            public Optional<Address> check(String zipCode) {
+                return Optional.ofNullable(addressExpected);
             }
         };
 
         invalidZipCodeHandler.setNextHandler(addressSearchChain);
-        Address addressActual = invalidZipCodeHandler.check(zipCode);
+        Optional<Address> addressActual = invalidZipCodeHandler.check(zipCode);
 
-        Assert.assertEquals(addressExpected, addressActual);
+        Assert.assertEquals(addressExpected, addressActual.get());
     }
 }

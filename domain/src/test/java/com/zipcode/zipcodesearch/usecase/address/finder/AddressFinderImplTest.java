@@ -49,9 +49,9 @@ public class AddressFinderImplTest {
 
         Mockito.when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
-        Address addressActual = addressFinderImpl.findAddressByZipCode(zipCode);
+        Optional<Address> addressActual = addressFinderImpl.findAddressByZipCode(zipCode);
 
-        Assert.assertEquals(addressExpected, addressActual);
+        Assert.assertEquals(addressExpected, addressActual.get());
 
         Mockito.verify(addressDataProvider, Mockito.times(2)).findByZipCode(Mockito.any());
         Mockito.verify(addressDataProvider, Mockito.times(1)).findByZipCode(zipCode);
@@ -76,9 +76,9 @@ public class AddressFinderImplTest {
 
         Mockito.when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
-        Address addressActual = addressFinderImpl.findAddressByZipCode(zipCode);
+        Optional<Address> addressActual = addressFinderImpl.findAddressByZipCode(zipCode);
 
-        Assert.assertEquals(addressExpected, addressActual);
+        Assert.assertEquals(addressExpected, addressActual.get());
 
         Mockito.verify(addressDataProvider, Mockito.times(1)).findByZipCode(Mockito.any());
         Mockito.verify(addressDataProvider, Mockito.times(1)).findByZipCode(zipCode);

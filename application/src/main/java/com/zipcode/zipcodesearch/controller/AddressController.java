@@ -17,6 +17,8 @@ public class AddressController {
 
     @GetMapping(path = "/{zipCode}")
     public ResponseEntity findByZipCode(@PathVariable("zipCode") String zipCode) {
-        return ResponseEntity.ok(addressFinder.findAddressByZipCode(zipCode));
+        return addressFinder.findAddressByZipCode(zipCode)
+                .map((address) -> ResponseEntity.ok(address))
+                .orElse(ResponseEntity.notFound().build());
     }
 }

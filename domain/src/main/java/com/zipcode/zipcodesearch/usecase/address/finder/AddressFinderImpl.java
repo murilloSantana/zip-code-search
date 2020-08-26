@@ -6,6 +6,8 @@ import com.zipcode.zipcodesearch.usecase.address.chain.InvalidZipCodeHandler;
 import com.zipcode.zipcodesearch.usecase.address.chain.AddressSearchChain;
 import com.zipcode.zipcodesearch.usecase.address.chain.ValidZipCodeHandler;
 
+import java.util.Optional;
+
 public class AddressFinderImpl implements AddressFinder {
 
     private final AddressDataProvider addressDataProvider;
@@ -15,7 +17,7 @@ public class AddressFinderImpl implements AddressFinder {
     }
 
     @Override
-    public Address findAddressByZipCode(String zipCode) {
+    public Optional<Address> findAddressByZipCode(String zipCode) {
         AddressSearchChain invalidZipCodeChain = new InvalidZipCodeHandler();
         invalidZipCodeChain.setNextHandler(new ValidZipCodeHandler(this.addressDataProvider));
 

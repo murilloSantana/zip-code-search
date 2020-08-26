@@ -43,11 +43,11 @@ public class ValidZipCodeHandlerTest {
 
         Mockito.when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
-        Address addressActual = validZipCodeHandler.check(zipCode);
+        Optional<Address> addressActual = validZipCodeHandler.check(zipCode);
 
         Assert.assertNotNull(addressActual);
 
-        Assert.assertEquals(addressExpected, addressActual);
+        Assert.assertEquals(addressExpected, addressActual.get());
 
         Mockito.verify(addressDataProvider, Mockito.times(1)).findByZipCode(Mockito.any());
 
@@ -73,11 +73,11 @@ public class ValidZipCodeHandlerTest {
 
         Mockito.when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
-        Address addressActual = validZipCodeHandler.check(zipCode);
+        Optional<Address> addressActual = validZipCodeHandler.check(zipCode);
 
         Assert.assertNotNull(addressActual);
 
-        Assert.assertEquals(addressExpected, addressActual);
+        Assert.assertEquals(addressExpected, addressActual.get());
 
         Mockito.verify(addressDataProvider, Mockito.times(2)).findByZipCode(Mockito.any());
 
@@ -103,11 +103,11 @@ public class ValidZipCodeHandlerTest {
 
         Mockito.when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
-        Address addressActual = validZipCodeHandler.check(zipCode);
+        Optional<Address> addressActual = validZipCodeHandler.check(zipCode);
 
         Assert.assertNotNull(addressActual);
 
-        Assert.assertEquals(addressExpected, addressActual);
+        Assert.assertEquals(addressExpected, addressActual.get());
 
         Mockito.verify(addressDataProvider, Mockito.times(3)).findByZipCode(Mockito.any());
 
@@ -133,11 +133,11 @@ public class ValidZipCodeHandlerTest {
 
         Mockito.when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
-        Address addressActual = validZipCodeHandler.check(zipCode);
+        Optional<Address> addressActual = validZipCodeHandler.check(zipCode);
 
         Assert.assertNotNull(addressActual);
 
-        Assert.assertEquals(addressExpected, addressActual);
+        Assert.assertEquals(addressExpected, addressActual.get());
 
         Mockito.verify(addressDataProvider, Mockito.times(4)).findByZipCode(Mockito.any());
 
@@ -163,11 +163,11 @@ public class ValidZipCodeHandlerTest {
 
         Mockito.when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
-        Address addressActual = validZipCodeHandler.check(zipCode);
+        Optional<Address> addressActual = validZipCodeHandler.check(zipCode);
 
         Assert.assertNotNull(addressActual);
 
-        Assert.assertEquals(addressExpected, addressActual);
+        Assert.assertEquals(addressExpected, addressActual.get());
 
         Mockito.verify(addressDataProvider, Mockito.times(5)).findByZipCode(Mockito.any());
 
@@ -193,11 +193,11 @@ public class ValidZipCodeHandlerTest {
 
         Mockito.when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
-        Address addressActual = validZipCodeHandler.check(zipCode);
+        Optional<Address> addressActual = validZipCodeHandler.check(zipCode);
 
         Assert.assertNotNull(addressActual);
 
-        Assert.assertEquals(addressExpected, addressActual);
+        Assert.assertEquals(addressExpected, addressActual.get());
 
         Mockito.verify(addressDataProvider, Mockito.times(6)).findByZipCode(Mockito.any());
 
@@ -223,11 +223,11 @@ public class ValidZipCodeHandlerTest {
 
         Mockito.when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
-        Address addressActual = validZipCodeHandler.check(zipCode);
+        Optional<Address> addressActual = validZipCodeHandler.check(zipCode);
 
         Assert.assertNotNull(addressActual);
 
-        Assert.assertEquals(addressExpected, addressActual);
+        Assert.assertEquals(addressExpected, addressActual.get());
 
         Mockito.verify(addressDataProvider, Mockito.times(7)).findByZipCode(Mockito.any());
 
@@ -253,11 +253,11 @@ public class ValidZipCodeHandlerTest {
 
         Mockito.when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
-        Address addressActual = validZipCodeHandler.check(zipCode);
+        Optional<Address> addressActual = validZipCodeHandler.check(zipCode);
 
         Assert.assertNotNull(addressActual);
 
-        Assert.assertEquals(addressExpected, addressActual);
+        Assert.assertEquals(addressExpected, addressActual.get());
 
         Mockito.verify(addressDataProvider, Mockito.times(8)).findByZipCode(Mockito.any());
 
@@ -283,11 +283,11 @@ public class ValidZipCodeHandlerTest {
 
         Mockito.when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
-        Address addressActual = validZipCodeHandler.check(zipCode);
+        Optional<Address> addressActual = validZipCodeHandler.check(zipCode);
 
         Assert.assertNotNull(addressActual);
 
-        Assert.assertEquals(addressExpected, addressActual);
+        Assert.assertEquals(addressExpected, addressActual.get());
 
         Mockito.verify(addressDataProvider, Mockito.times(9)).findByZipCode(Mockito.any());
 
@@ -300,9 +300,9 @@ public class ValidZipCodeHandlerTest {
 
         Mockito.when(addressDataProvider.findByZipCode(zipCode)).thenReturn(Optional.empty());
 
-        Address addressActual = validZipCodeHandler.check(zipCode);
+        Optional<Address> addressActual = validZipCodeHandler.check(zipCode);
 
-        Assert.assertNull(addressActual);
+        Assert.assertFalse(addressActual.isPresent());
 
         Mockito.verify(addressDataProvider, Mockito.times(9)).findByZipCode(Mockito.any());
 
@@ -332,13 +332,13 @@ public class ValidZipCodeHandlerTest {
                 .build();
 
         Mockito.when(addressDataProvider.findByZipCode(Mockito.any())).thenReturn(Optional.empty());
-        Mockito.when(addressSearchChain.check(zipCode)).thenReturn(addressExpected);
+        Mockito.when(addressSearchChain.check(zipCode)).thenReturn(Optional.ofNullable(addressExpected));
 
         validZipCodeHandler.setNextHandler(addressSearchChain);
 
-        Address addressActual = validZipCodeHandler.check(zipCode);
+        Optional<Address> addressActual = validZipCodeHandler.check(zipCode);
 
-        Assert.assertEquals(addressExpected, addressActual);
+        Assert.assertEquals(addressExpected, addressActual.get());
     }
 
     @Test
@@ -361,14 +361,14 @@ public class ValidZipCodeHandlerTest {
             }
 
             @Override
-            public Address check(String zipCode) {
-                return addressExpected;
+            public Optional<Address> check(String zipCode) {
+                return Optional.ofNullable(addressExpected);
             }
         };
 
         validZipCodeHandler.setNextHandler(addressSearchChain);
-        Address addressActual = validZipCodeHandler.check(zipCode);
+        Optional<Address> addressActual = validZipCodeHandler.check(zipCode);
 
-        Assert.assertEquals(addressExpected, addressActual);
+        Assert.assertEquals(addressExpected, addressActual.get());
     }
 }
