@@ -1,6 +1,6 @@
 package com.zipcode.zipcodesearch.usecase.address.chain;
 
-import com.zipcode.zipcodesearch.adapter.AddressRepository;
+import com.zipcode.zipcodesearch.adapter.AddressDataProvider;
 import com.zipcode.zipcodesearch.model.Address;
 
 import java.util.Optional;
@@ -8,10 +8,10 @@ import java.util.Optional;
 public class ValidZipCodeHandler implements AddressSearchChain {
 
     private AddressSearchChain addressSearchChain;
-    private final AddressRepository addressRepository;
+    private final AddressDataProvider addressDataProvider;
 
-    public ValidZipCodeHandler(AddressRepository addressRepository) {
-       this.addressRepository = addressRepository;
+    public ValidZipCodeHandler(AddressDataProvider addressDataProvider) {
+       this.addressDataProvider = addressDataProvider;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ValidZipCodeHandler implements AddressSearchChain {
 
     public Optional<Address> findRecursiveZipCode(StringBuilder zipCodeBuilder, int positionToReplace) {
         String zipCode = zipCodeBuilder.toString();
-        Optional<Address> address = addressRepository.findByZipCode(zipCode);
+        Optional<Address> address = addressDataProvider.findByZipCode(zipCode);
 
         if(positionToReplace > -1 && !address.isPresent()) {
             zipCodeBuilder.setCharAt(positionToReplace, '0');

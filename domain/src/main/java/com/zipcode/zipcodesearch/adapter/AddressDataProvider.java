@@ -4,6 +4,6 @@ import com.zipcode.zipcodesearch.model.Address;
 
 import java.util.Optional;
 
-public interface AddressRepository {
+public interface AddressDataProvider {
     Optional<Address> findByZipCode(String zipCode);
 }

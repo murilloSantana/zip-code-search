@@ -1,6 +1,13 @@
 package com.zipcode.zipcodesearch.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class AddressEntity {
+
+    @Id
+    private Long id;
     private String zipCode;
     private String street;
     private String district;
@@ -10,6 +17,14 @@ public class AddressEntity {
     public AddressEntity(String zipCode, String district) {
         this.zipCode = zipCode;
         this.district = district;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getZipCode() {
