@@ -21,6 +21,9 @@ public class ValidZipCodeHandlerTest {
     @Mock
     private AddressRepository addressRepository;
 
+    @Mock
+    private AddressSearchChain addressSearchChain;
+
     @Test
     public void testValidZipCodeFoundWithOneSearchs() {
         String zipCode = "25015210";
@@ -36,7 +39,7 @@ public class ValidZipCodeHandlerTest {
                 .builder()
                 .zipCode(zipCodeExpected)
                 .district("Duque de Caxias")
-                .build();;
+                .build();
 
         Mockito.when(addressRepository.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
@@ -313,5 +316,59 @@ public class ValidZipCodeHandlerTest {
         Mockito.verify(addressRepository, Mockito.times(1)).findByZipCode("10000000");
         Mockito.verify(addressRepository, Mockito.times(1)).findByZipCode("00000000");
 
+    }
+
+    @Test
+    public void testValidZipCodeWithNextHandler() {
+        String zipCode = "25015212";
+
+        Address addressExpected = Address
+                .builder()
+                .state("Rio de Janeiro")
+                .city("Rio de Janeiro")
+                .district("Flamengo")
+                .street("Rua Marques de Abrantes")
+                .zipCode(zipCode)
+                .build();
+
+        Mockito.when(addressRepository.findByZipCode(Mockito.any())).thenReturn(Optional.empty());
+        Mockito.when(addressSearchChain.check(zipCode)).thenReturn(addressExpected);
+
+        validZipCodeHandler.setNextHandler(addressSearchChain);
+
+        Address addressActual = validZipCodeHandler.check(zipCode);
+
+        Assert.assertEquals(addressExpected, addressActual);
+    }
+
+    @Test
+    public void testValidZipCodeWithRealNextHandler() {
+        String zipCode = "22230060";
+
+        Address addressExpected = Address
+                .builder()
+                .state("Rio de Janeiro")
+                .city("Duque de Caxias")
+                .district("PQ. Lafaiete")
+                .street("Rua David de Oliveira")
+                .zipCode("25015210")
+                .build();
+
+        AddressSearchChain addressSearchChain = new AddressSearchChain() {
+            @Override
+            public void setNextHandler(AddressSearchChain nextHandler) {
+
+            }
+
+            @Override
+            public Address check(String zipCode) {
+                return addressExpected;
+            }
+        };
+
+        validZipCodeHandler.setNextHandler(addressSearchChain);
+        Address addressActual = validZipCodeHandler.check(zipCode);
+
+        Assert.assertEquals(addressExpected, addressActual);
     }
 }
