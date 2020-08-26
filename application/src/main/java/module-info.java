@@ -8,6 +8,7 @@ module com.zip.code.search.modules.application {
     requires java.annotation;
     requires spring.data.jpa;
     requires java.persistence;
+    requires static lombok;
 
     exports com.zipcode.zipcodesearch.dataprovider.repository;
     exports com.zipcode.zipcodesearch.dataprovider.model;

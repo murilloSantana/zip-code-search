@@ -1,6 +1,7 @@
 package com.zipcode.zipcodesearch.dataprovider.repository;
 
 import com.zipcode.zipcodesearch.adapter.AddressDataProvider;
+import com.zipcode.zipcodesearch.dataprovider.model.AddressEntity;
 import com.zipcode.zipcodesearch.model.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,18 @@ public class AddressDataProviderAdapter implements AddressDataProvider {
 
     @Override
     public Optional<Address> findByZipCode(String zipCode) {
-        return Optional.empty();
+        return addressRepository.findByZipCode(zipCode)
+                .map((addressEntity) -> this.addressEntityToAddress(addressEntity));
+    }
+
+    private Address addressEntityToAddress(AddressEntity addressEntity) {
+        return Address
+                .builder()
+                .state(addressEntity.getState())
+                .city(addressEntity.getCity())
+                .district(addressEntity.getDistrict())
+                .street(addressEntity.getStreet())
+                .zipCode(addressEntity.getZipCode())
+                .build();
     }
 }
