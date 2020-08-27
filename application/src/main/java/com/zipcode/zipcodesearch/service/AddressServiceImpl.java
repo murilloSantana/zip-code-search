@@ -24,31 +24,31 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Optional<List<AddressDTO>> listAllAddress() {
+    public Optional<List<AddressDTO>> listAll() {
         return Optional.empty();
     }
 
     @Override
     @Cacheable(cacheNames="addressByZipCode", unless="#result == null" )
-    public Optional<AddressDTO> findAddressByZipCode(String zipCode) {
-        return this.addressUseCase.findAddressByZipCode(zipCode)
+    public Optional<AddressDTO> findByZipCode(String zipCode) {
+        return this.addressUseCase.findByZipCode(zipCode)
                 .map((address) -> this.addressConverter.addressToAddressDTO(address))
                 .orElse(Optional.empty());
     }
 
     @Override
-    public Optional<AddressDTO> saveAddress(AddressDTO addressDTO) {
-        Optional<Address> address = this.addressUseCase.saveAddress(this.addressConverter.addressDTOToAddress(addressDTO));
+    public Optional<AddressDTO> save(AddressDTO addressDTO) {
+        Optional<Address> address = this.addressUseCase.save(this.addressConverter.addressDTOToAddress(addressDTO));
         return this.addressConverter.addressToAddressDTO(address);
     }
 
     @Override
-    public Optional<AddressDTO> updateAddress(AddressDTO addressDTO) {
+    public Optional<AddressDTO> update(AddressDTO addressDTO) {
         return Optional.empty();
     }
 
     @Override
-    public void deleteAddress(AddressDTO addressDTO) {
+    public void delete(AddressDTO addressDTO) {
 
     }
 }

@@ -49,7 +49,7 @@ public class AddressController {
     @GetMapping(path = "/{zipCode}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AddressDTO> findByZipCode(@PathVariable("zipCode") String zipCode) {
 
-        Optional<AddressDTO> addressDTO = this.addressService.findAddressByZipCode(zipCode);
+        Optional<AddressDTO> addressDTO = this.addressService.findByZipCode(zipCode);
 
         if(addressDTO.isPresent()) return this.buildAddressFoundResponse(addressDTO.get());
 
@@ -58,7 +58,7 @@ public class AddressController {
 
     @PostMapping
     public ResponseEntity<AddressDTO> save(@RequestBody AddressDTO addressDTO) {
-        return ResponseEntity.ok(this.addressService.saveAddress(addressDTO).get());
+        return ResponseEntity.ok(this.addressService.save(addressDTO).get());
     }
 
 }

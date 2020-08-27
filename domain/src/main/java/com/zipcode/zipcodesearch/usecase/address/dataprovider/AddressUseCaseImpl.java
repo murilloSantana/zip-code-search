@@ -19,7 +19,7 @@ public class AddressUseCaseImpl implements AddressUseCase {
     }
 
     @Override
-    public Optional<Address> findAddressByZipCode(String zipCode) {
+    public Optional<Address> findByZipCode(String zipCode) {
         log.info("Searching Zip Code");
         AddressSearchChain invalidZipCodeChain = new InvalidZipCodeHandler();
         invalidZipCodeChain.setNextHandler(new ValidZipCodeHandler(this.addressDataProvider));
@@ -28,17 +28,17 @@ public class AddressUseCaseImpl implements AddressUseCase {
     }
 
     @Override
-    public Optional<Address> saveAddress(Address address) {
+    public Optional<Address> save(Address address) {
         return this.addressDataProvider.saveAddress(address);
     }
 
     @Override
-    public Optional<Address> updateAddress(Address address) {
+    public Optional<Address> update(Address address) {
         return Optional.empty();
     }
 
     @Override
-    public void deleteAddress(Address address) {
+    public void delete(Address address) {
 
     }
 }

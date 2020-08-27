@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AddressService {
-    Optional<List<AddressDTO>> listAllAddress();
-    Optional<AddressDTO> findAddressByZipCode(String zipCode);
-    Optional<AddressDTO> saveAddress(AddressDTO addressDTO);
-    Optional<AddressDTO> updateAddress(AddressDTO addressDTO);
-    void deleteAddress(AddressDTO addressDTO);
+    Optional<List<AddressDTO>> listAll();
+    Optional<AddressDTO> findByZipCode(String zipCode);
+    Optional<AddressDTO> save(AddressDTO addressDTO);
+    Optional<AddressDTO> update(AddressDTO addressDTO);
+    void delete(AddressDTO addressDTO);
 }

@@ -33,7 +33,7 @@ public class AddressUseCaseImplTest {
     @Test
     public void testSearchInvalidZipCode() {
         assertThrows(InvalidZipCodeException.class, () -> {
-            addressFinderImpl.findAddressByZipCode("2223006");
+            addressFinderImpl.findByZipCode("2223006");
         });
     }
 
@@ -56,7 +56,7 @@ public class AddressUseCaseImplTest {
 
         when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
-        Optional<Address> addressActual = addressFinderImpl.findAddressByZipCode(zipCode);
+        Optional<Address> addressActual = addressFinderImpl.findByZipCode(zipCode);
 
         assertEquals(addressExpected, addressActual.get());
 
@@ -83,7 +83,7 @@ public class AddressUseCaseImplTest {
 
         when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
-        Optional<Address> addressActual = addressFinderImpl.findAddressByZipCode(zipCode);
+        Optional<Address> addressActual = addressFinderImpl.findByZipCode(zipCode);
 
         assertEquals(addressExpected, addressActual.get());
 
