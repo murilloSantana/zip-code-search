@@ -22,7 +22,7 @@ public class AddressDataProviderAdapter implements AddressDataProvider {
 
     @Override
     public Optional<Address> findByZipCode(String zipCode) {
-        return addressRepository.findByZipCode(zipCode)
+        return this.addressRepository.findByZipCode(zipCode)
                 .map((addressEntity) -> this.addressConverter.addressEntityToAddress(addressEntity))
                 .orElse(Optional.empty());
     }

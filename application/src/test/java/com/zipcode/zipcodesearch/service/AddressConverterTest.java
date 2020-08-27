@@ -5,13 +5,14 @@ import com.zipcode.zipcodesearch.controller.address.dto.AddressDTO;
 import com.zipcode.zipcodesearch.dataprovider.model.AddressEntity;
 import com.zipcode.zipcodesearch.model.Address;
 import ma.glasnost.orika.MapperFacade;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class AddressConverterTest {
@@ -65,7 +66,7 @@ public class AddressConverterTest {
         Address addressExpected = this.mockAddress();
         Address addressActual = this.addressConverter.addressDTOToAddress(addressDTO);
 
-        Assertions.assertEquals(addressExpected, addressActual);
+        assertEquals(addressExpected, addressActual);
     }
 
     @Test
@@ -74,7 +75,7 @@ public class AddressConverterTest {
         AddressDTO addressDTOExpected = this.mockAddressDTO();
         Optional<AddressDTO> addressDTOActual = this.addressConverter.addressToAddressDTO(address);
 
-        Assertions.assertEquals(addressDTOExpected, addressDTOActual.get());
+        assertEquals(addressDTOExpected, addressDTOActual.get());
     }
 
     @Test
@@ -83,7 +84,7 @@ public class AddressConverterTest {
         AddressDTO addressDTOExpected = this.mockAddressDTO();
         Optional<AddressDTO> addressDTOActual = this.addressConverter.addressToAddressDTO(address);
 
-        Assertions.assertEquals(addressDTOExpected, addressDTOActual.get());
+        assertEquals(addressDTOExpected, addressDTOActual.get());
     }
 
     @Test
@@ -92,7 +93,7 @@ public class AddressConverterTest {
         AddressEntity addressEntityExpected = this.mockAddressEntity();
         AddressEntity addressActual = this.addressConverter.addressToAddressEntity(address);
 
-        Assertions.assertEquals(addressEntityExpected, addressActual);
+        assertEquals(addressEntityExpected, addressActual);
     }
 
     @Test
@@ -101,7 +102,7 @@ public class AddressConverterTest {
         Address addressExpected = this.mockAddress();
         Optional<Address> addressActual = this.addressConverter.addressEntityToAddress(addressEntity);
 
-        Assertions.assertEquals(addressExpected, addressActual.get());
+        assertEquals(addressExpected, addressActual.get());
     }
 
 }
