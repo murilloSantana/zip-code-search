@@ -10,4 +10,5 @@ module com.zip.code.search.modules.domain {
     opens com.zipcode.zipcodesearch.usecase.address.chain;
     opens com.zipcode.zipcodesearch.usecase.address.dataprovider;
     opens com.zipcode.zipcodesearch.model;
+    opens com.zipcode.zipcodesearch.usecase.address.validator;
 }
