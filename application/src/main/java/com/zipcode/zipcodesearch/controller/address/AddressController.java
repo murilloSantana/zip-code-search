@@ -1,8 +1,7 @@
 package com.zipcode.zipcodesearch.controller.address;
 
 import com.zipcode.zipcodesearch.controller.address.dto.AddressDTO;
-import com.zipcode.zipcodesearch.model.Address;
-import com.zipcode.zipcodesearch.usecase.address.finder.AddressFinder;
+import com.zipcode.zipcodesearch.service.AddressService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -21,10 +20,10 @@ import java.util.Optional;
 @Slf4j
 public class AddressController {
 
-    private AddressFinder addressFinder;
+    private AddressService addressService;
 
-    public AddressController(AddressFinder addressFinder) {
-        this.addressFinder = addressFinder;
+    public AddressController(AddressService addressService) {
+        this.addressService = addressService;
     }
 
     @ApiOperation(
@@ -43,11 +42,9 @@ public class AddressController {
     @GetMapping(path = "/{zipCode}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AddressDTO> findByZipCode(@PathVariable("zipCode") String zipCode) {
 
-        Optional<Address> address = addressFinder.findAddressByZipCode(zipCode);
+        Optional<AddressDTO> addressDTO = addressService.findAddressByZipCode(zipCode);
 
-        if(address.isPresent()){
-            return this.buildAddressFoundResponse(AddressDTO.addressToAddressDTO(address.get()));
-        }
+        if(addressDTO.isPresent()) return this.buildAddressFoundResponse(addressDTO.get());
 
         return this.buildAddressNotFoundResponse(zipCode);
     }

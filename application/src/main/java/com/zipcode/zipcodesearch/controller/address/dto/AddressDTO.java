@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Optional;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,8 +20,8 @@ public class AddressDTO {
     private String city;
     private String state;
 
-    public static AddressDTO addressToAddressDTO(Address address) {
-        return AddressDTO
+    public static Optional<AddressDTO> addressToAddressDTO(Address address) {
+        AddressDTO addressDTO = AddressDTO
                 .builder()
                 .state(address.getState())
                 .city(address.getCity())
@@ -27,5 +29,7 @@ public class AddressDTO {
                 .street(address.getStreet())
                 .zipCode(address.getZipCode())
                 .build();
+
+        return Optional.ofNullable(addressDTO);
     }
 }

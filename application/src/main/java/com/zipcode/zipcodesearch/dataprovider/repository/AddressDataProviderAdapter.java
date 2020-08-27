@@ -19,7 +19,8 @@ public class AddressDataProviderAdapter implements AddressDataProvider {
     @Override
     public Optional<Address> findByZipCode(String zipCode) {
         return addressRepository.findByZipCode(zipCode)
-                .map((addressEntity) -> AddressEntity.addressEntityToAddress(addressEntity));
+                .map((addressEntity) -> AddressEntity.addressEntityToAddress(addressEntity))
+                .orElse(Optional.empty());
     }
 
 }
