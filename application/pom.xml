@@ -28,6 +28,11 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.zipcode</groupId>
             <artifactId>zip-code-search-domain</artifactId>
             <version>${project.version}</version>
