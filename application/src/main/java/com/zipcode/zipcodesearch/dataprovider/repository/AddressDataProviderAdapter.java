@@ -1,6 +1,6 @@
 package com.zipcode.zipcodesearch.dataprovider.repository;
 
-import com.zipcode.zipcodesearch.adapter.AddressDataProvider;
+import com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter.AddressDataProvider;
 import com.zipcode.zipcodesearch.dataprovider.model.AddressEntity;
 import com.zipcode.zipcodesearch.model.Address;
 import com.zipcode.zipcodesearch.service.AddressConverter;

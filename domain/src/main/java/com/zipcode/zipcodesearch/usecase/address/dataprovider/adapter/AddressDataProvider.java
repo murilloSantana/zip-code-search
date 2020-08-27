@@ -1,4 +1,4 @@
-package com.zipcode.zipcodesearch.adapter;
+package com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter;
 
 import com.zipcode.zipcodesearch.model.Address;
 

@@ -1,8 +1,8 @@
 package com.zipcode.zipcodesearch.configuration;
 
-import com.zipcode.zipcodesearch.adapter.AddressDataProvider;
-import com.zipcode.zipcodesearch.usecase.address.finder.AddressUseCase;
-import com.zipcode.zipcodesearch.usecase.address.finder.AddressUseCaseImpl;
+import com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter.AddressDataProvider;
+import com.zipcode.zipcodesearch.usecase.address.dataprovider.AddressUseCase;
+import com.zipcode.zipcodesearch.usecase.address.dataprovider.AddressUseCaseImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

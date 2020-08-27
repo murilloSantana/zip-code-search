@@ -1,6 +1,6 @@
 package com.zipcode.zipcodesearch.usecase.address.chain;
 
-import com.zipcode.zipcodesearch.adapter.AddressDataProvider;
+import com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter.AddressDataProvider;
 import com.zipcode.zipcodesearch.model.Address;
 import org.junit.Assert;
 import org.junit.Test;
