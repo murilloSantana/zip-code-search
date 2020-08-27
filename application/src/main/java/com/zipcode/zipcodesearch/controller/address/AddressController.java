@@ -1,10 +1,12 @@
 package com.zipcode.zipcodesearch.controller.address;
 
 import com.zipcode.zipcodesearch.controller.address.dto.AddressDTO;
+import com.zipcode.zipcodesearch.model.Address;
 import com.zipcode.zipcodesearch.usecase.address.finder.AddressFinder;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/address")
+@Slf4j
 public class AddressController {
 
     private AddressFinder addressFinder;
@@ -37,8 +42,24 @@ public class AddressController {
     )
     @GetMapping(path = "/{zipCode}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AddressDTO> findByZipCode(@PathVariable("zipCode") String zipCode) {
-        return addressFinder.findAddressByZipCode(zipCode)
-                .map((address) -> ResponseEntity.ok(AddressDTO.addressToAddressDTO(address)))
-                .orElse(ResponseEntity.notFound().build());
+
+        Optional<Address> address = addressFinder.findAddressByZipCode(zipCode);
+
+        if(address.isPresent()){
+            return this.buildAddressFoundResponse(AddressDTO.addressToAddressDTO(address.get()));
+        }
+
+        return this.buildAddressNotFoundResponse(zipCode);
     }
+
+    private ResponseEntity buildAddressFoundResponse(AddressDTO addressDTO) {
+        log.info("Address Found: ADDRESS {}", addressDTO);
+        return ResponseEntity.ok(addressDTO);
+    }
+
+    private ResponseEntity buildAddressNotFoundResponse(String zipCode) {
+        log.info("Address Not Found: ZIP_CODE {}", zipCode);
+        return ResponseEntity.notFound().build();
+    }
+
 }

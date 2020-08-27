@@ -2,9 +2,11 @@ package com.zipcode.zipcodesearch.usecase.address.chain;
 
 import com.zipcode.zipcodesearch.adapter.AddressDataProvider;
 import com.zipcode.zipcodesearch.model.Address;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
 
+@Slf4j
 public class ValidZipCodeHandler implements AddressSearchChain {
 
     private AddressSearchChain addressSearchChain;
@@ -39,6 +41,7 @@ public class ValidZipCodeHandler implements AddressSearchChain {
         Optional<Address> address = addressDataProvider.findByZipCode(zipCode);
 
         if(positionToReplace > -1 && !address.isPresent()) {
+            log.info("Valid Address Not Found: ZIP_CODE {}", zipCode);
             zipCodeBuilder.setCharAt(positionToReplace, '0');
             return findRecursiveZipCode(zipCodeBuilder, --positionToReplace);
         }
