@@ -15,9 +15,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AddressFinderImplTest {
+public class AddressUseCaseImplTest {
     @InjectMocks
-    private AddressFinderImpl addressFinderImpl;
+    private AddressUseCaseImpl addressFinderImpl;
 
     @Mock
     private AddressDataProvider addressDataProvider;

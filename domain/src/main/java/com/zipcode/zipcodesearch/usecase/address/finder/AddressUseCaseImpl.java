@@ -10,11 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Optional;
 
 @Slf4j
-public class AddressFinderImpl implements AddressFinder {
+public class AddressUseCaseImpl implements AddressUseCase {
 
     private final AddressDataProvider addressDataProvider;
 
-    public AddressFinderImpl(AddressDataProvider addressDataProvider) {
+    public AddressUseCaseImpl(AddressDataProvider addressDataProvider) {
         this.addressDataProvider = addressDataProvider;
     }
 
@@ -25,5 +25,20 @@ public class AddressFinderImpl implements AddressFinder {
         invalidZipCodeChain.setNextHandler(new ValidZipCodeHandler(this.addressDataProvider));
 
         return invalidZipCodeChain.check(zipCode);
+    }
+
+    @Override
+    public Optional<Address> saveAddress(Address address) {
+        return this.addressDataProvider.saveAddress(address);
+    }
+
+    @Override
+    public Optional<Address> updateAddress(Address address) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteAddress(Address address) {
+
     }
 }

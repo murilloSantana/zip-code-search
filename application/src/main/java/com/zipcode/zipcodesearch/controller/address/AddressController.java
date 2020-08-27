@@ -8,10 +8,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -24,6 +21,16 @@ public class AddressController {
 
     public AddressController(AddressService addressService) {
         this.addressService = addressService;
+    }
+
+    private ResponseEntity buildAddressFoundResponse(AddressDTO addressDTO) {
+        log.info("Address Found: ADDRESS {}", addressDTO);
+        return ResponseEntity.ok(addressDTO);
+    }
+
+    private ResponseEntity buildAddressNotFoundResponse(String zipCode) {
+        log.info("Address Not Found: ZIP_CODE {}", zipCode);
+        return ResponseEntity.notFound().build();
     }
 
     @ApiOperation(
@@ -42,21 +49,16 @@ public class AddressController {
     @GetMapping(path = "/{zipCode}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AddressDTO> findByZipCode(@PathVariable("zipCode") String zipCode) {
 
-        Optional<AddressDTO> addressDTO = addressService.findAddressByZipCode(zipCode);
+        Optional<AddressDTO> addressDTO = this.addressService.findAddressByZipCode(zipCode);
 
         if(addressDTO.isPresent()) return this.buildAddressFoundResponse(addressDTO.get());
 
         return this.buildAddressNotFoundResponse(zipCode);
     }
 
-    private ResponseEntity buildAddressFoundResponse(AddressDTO addressDTO) {
-        log.info("Address Found: ADDRESS {}", addressDTO);
-        return ResponseEntity.ok(addressDTO);
-    }
-
-    private ResponseEntity buildAddressNotFoundResponse(String zipCode) {
-        log.info("Address Not Found: ZIP_CODE {}", zipCode);
-        return ResponseEntity.notFound().build();
+    @PostMapping
+    public ResponseEntity<AddressDTO> save(@RequestBody AddressDTO addressDTO) {
+        return ResponseEntity.ok(this.addressService.saveAddress(addressDTO).get());
     }
 
 }

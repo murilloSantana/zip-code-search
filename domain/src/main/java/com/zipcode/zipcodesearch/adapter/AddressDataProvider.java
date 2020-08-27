@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface AddressDataProvider {
     Optional<Address> findByZipCode(String zipCode);
+    Optional<Address> saveAddress(Address address);
 }
