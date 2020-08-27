@@ -2,17 +2,17 @@ package com.zipcode.zipcodesearch.usecase.address.chain;
 
 import com.zipcode.zipcodesearch.model.Address;
 import com.zipcode.zipcodesearch.model.InvalidZipCodeException;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class InvalidZipCodeHandlerTest {
 
     @InjectMocks
@@ -21,10 +21,12 @@ public class InvalidZipCodeHandlerTest {
     @Mock
     private AddressSearchChain addressSearchChain;
 
-    @Test(expected = InvalidZipCodeException.class)
+    @Test
     public void testInvalidZipCode() {
-        String zipCode = "2223006";
-        invalidZipCodeHandler.check(zipCode);
+        Assertions.assertThrows(InvalidZipCodeException.class, () -> {
+            String zipCode = "2223006";
+            invalidZipCodeHandler.check(zipCode);
+        });
     }
 
     @Test
@@ -50,7 +52,7 @@ public class InvalidZipCodeHandlerTest {
 
         Optional<Address> addressActual = invalidZipCodeHandler.check(zipCode);
 
-        Assert.assertEquals(addressExpected, addressActual.get());
+        Assertions.assertEquals(addressExpected, addressActual.get());
     }
 
     @Test
@@ -81,6 +83,6 @@ public class InvalidZipCodeHandlerTest {
         invalidZipCodeHandler.setNextHandler(addressSearchChain);
         Optional<Address> addressActual = invalidZipCodeHandler.check(zipCode);
 
-        Assert.assertEquals(addressExpected, addressActual.get());
+        Assertions.assertEquals(addressExpected, addressActual.get());
     }
 }

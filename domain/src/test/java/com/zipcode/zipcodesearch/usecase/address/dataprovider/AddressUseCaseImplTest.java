@@ -4,17 +4,20 @@ import com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter.AddressDat
 import com.zipcode.zipcodesearch.model.Address;
 import com.zipcode.zipcodesearch.usecase.address.chain.AddressSearchChain;
 import com.zipcode.zipcodesearch.model.InvalidZipCodeException;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.util.Optional;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class AddressUseCaseImplTest {
     @InjectMocks
     private AddressUseCaseImpl addressFinderImpl;
@@ -25,9 +28,11 @@ public class AddressUseCaseImplTest {
     @Mock
     private AddressSearchChain addressSearchChain;
 
-    @Test(expected = InvalidZipCodeException.class)
+    @Test
     public void testSearchInvalidZipCode() {
-        addressFinderImpl.findAddressByZipCode("2223006");
+        Assertions.assertThrows(InvalidZipCodeException.class, () -> {
+            addressFinderImpl.findAddressByZipCode("2223006");
+        });
     }
 
     @Test
@@ -51,7 +56,7 @@ public class AddressUseCaseImplTest {
 
         Optional<Address> addressActual = addressFinderImpl.findAddressByZipCode(zipCode);
 
-        Assert.assertEquals(addressExpected, addressActual.get());
+        Assertions.assertEquals(addressExpected, addressActual.get());
 
         Mockito.verify(addressDataProvider, Mockito.times(2)).findByZipCode(Mockito.any());
         Mockito.verify(addressDataProvider, Mockito.times(1)).findByZipCode(zipCode);
@@ -78,7 +83,7 @@ public class AddressUseCaseImplTest {
 
         Optional<Address> addressActual = addressFinderImpl.findAddressByZipCode(zipCode);
 
-        Assert.assertEquals(addressExpected, addressActual.get());
+        Assertions.assertEquals(addressExpected, addressActual.get());
 
         Mockito.verify(addressDataProvider, Mockito.times(1)).findByZipCode(Mockito.any());
         Mockito.verify(addressDataProvider, Mockito.times(1)).findByZipCode(zipCode);

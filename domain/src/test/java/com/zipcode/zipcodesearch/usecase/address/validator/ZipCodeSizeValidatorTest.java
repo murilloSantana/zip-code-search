@@ -1,12 +1,12 @@
 package com.zipcode.zipcodesearch.usecase.address.validator;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ZipCodeSizeValidatorTest {
 
     @InjectMocks
@@ -15,18 +15,18 @@ public class ZipCodeSizeValidatorTest {
     @Test
     public void testValidZipCode() {
         String zipCode = "23456789";
-        Assert.assertTrue(zipCodeSizeValidator.isValid(zipCode));
+        Assertions.assertTrue(zipCodeSizeValidator.isValid(zipCode));
     }
 
     @Test
     public void testSmallInvalidZipCode() {
         String zipCode = "2345678";
-        Assert.assertFalse(zipCodeSizeValidator.isValid(zipCode));
+        Assertions.assertFalse(zipCodeSizeValidator.isValid(zipCode));
     }
 
     @Test
     public void testLargeInvalidZipCode() {
         String zipCode = "234567822";
-        Assert.assertFalse(zipCodeSizeValidator.isValid(zipCode));
+        Assertions.assertFalse(zipCodeSizeValidator.isValid(zipCode));
     }
 }
