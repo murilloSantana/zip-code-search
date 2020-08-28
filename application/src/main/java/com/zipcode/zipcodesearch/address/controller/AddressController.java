@@ -14,7 +14,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @RestController
 @RequestMapping("/address")
@@ -26,11 +29,20 @@ public class AddressController {
     @Value("${server.port}")
     private String serverPort;
 
-    @Value("${server.servlet.contextPath}")
-    private String serverServletContextPath;
-
     public AddressController(AddressService addressService) {
         this.addressService = addressService;
+    }
+
+    private ResponseEntity buildAddressListSuccessResponse(List<AddressDTO> addressDTOList) {
+        log.info("Address List returned with success: ADDRESS_LIST {}", addressDTOList);
+
+        return ResponseEntity.ok(addressDTOList);
+    }
+
+    private ResponseEntity buildAddressListErrorResponse() {
+        log.info("There was an internal error on the server and it wasn't possible to list the addresses");
+
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
     }
 
     private ResponseEntity buildAddressCreatedResponse(AddressDTO addressDTO) {
@@ -52,6 +64,15 @@ public class AddressController {
     private ResponseEntity buildAddressNotFoundResponse(String zipCode) {
         log.info("Address Not Found: ZIP_CODE {}", zipCode);
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<AddressDTO>> listAll() {
+        Optional<List<AddressDTO>> addressDTOList = this.addressService.listAll();
+
+        if(addressDTOList.isPresent()) return this.buildAddressListSuccessResponse(addressDTOList.get());
+
+        return this.buildAddressListErrorResponse();
     }
 
     @ApiOperation(

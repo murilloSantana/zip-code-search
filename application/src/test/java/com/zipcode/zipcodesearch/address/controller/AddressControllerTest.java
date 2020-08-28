@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zipcode.zipcodesearch.address.controller.dto.AddressDTO;
 import com.zipcode.zipcodesearch.address.service.AddressService;
 import com.zipcode.zipcodesearch.model.InvalidZipCodeException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -15,6 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -31,8 +34,15 @@ public class AddressControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    private ObjectMapper objectMapper;
+
     @MockBean
     private AddressService addressService;
+
+    @BeforeEach
+    public void setUp() {
+        this.objectMapper = new ObjectMapper();
+    }
 
     public Optional<AddressDTO> mockAddressDTO() {
         return Optional.ofNullable(AddressDTO
@@ -45,6 +55,48 @@ public class AddressControllerTest {
                 .build());
     }
 
+    public Optional<List<AddressDTO>> mockAddressDTOList() {
+        AddressDTO firstAddress = AddressDTO
+                .builder()
+                .state("Rio de Janeiro")
+                .city("Rio de Janeiro")
+                .district("Flamengo")
+                .street("Rua Marques de Abrantes")
+                .zipCode("22230060")
+                .build();
+
+        AddressDTO secondAddress = AddressDTO
+                .builder()
+                .state("Rio de Janeiro")
+                .city("Duque de Caxias")
+                .district("PQ. Lafaiete")
+                .street("Rua David de Oliveira")
+                .zipCode("22212345")
+                .build();
+
+        return Optional.ofNullable(Arrays.asList(firstAddress, secondAddress));
+    }
+
+    @Test
+    public void testListAllAddresses() throws Exception {
+        Optional<List<AddressDTO>> addressDTOList = this.mockAddressDTOList();
+
+        when(addressService.listAll()).thenReturn(addressDTOList);
+
+        this.mockMvc.perform(get("/address"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(this.objectMapper.writeValueAsString(addressDTOList.get())));;
+    }
+
+    @Test
+    public void testListAllAddressesThrowError() throws Exception {
+        Optional<List<AddressDTO>> addressDTOList = this.mockAddressDTOList();
+
+        when(addressService.listAll()).thenThrow(RuntimeException.class);;
+
+        this.mockMvc.perform(get("/address"))
+                .andExpect(status().isInternalServerError());
+    }
 
     @Test
     public void testAddressNotFound() throws Exception {
@@ -62,11 +114,9 @@ public class AddressControllerTest {
 
         when(addressService.findByZipCode(zipCode)).thenReturn(this.mockAddressDTO());
 
-        ObjectMapper objectMapper = new ObjectMapper();
-
         this.mockMvc.perform(get("/address/zipcode/" + zipCode))
                 .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.writeValueAsString(this.mockAddressDTO().get())));
+                .andExpect(content().string(this.objectMapper.writeValueAsString(this.mockAddressDTO().get())));
     }
 
     @Test
@@ -91,10 +141,8 @@ public class AddressControllerTest {
 
     @Test
     public void testSaveAddress() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-
         Optional<AddressDTO> addressDTO = this.mockAddressDTO();
-        String parsedAddressDTO = objectMapper.writeValueAsString(addressDTO.get());
+        String parsedAddressDTO = this.objectMapper.writeValueAsString(addressDTO.get());
         when(addressService.save(addressDTO.get())).thenReturn(addressDTO);
 
         this.mockMvc.perform(post("/address").content(parsedAddressDTO).header("content-type", "application/json"))
@@ -104,10 +152,8 @@ public class AddressControllerTest {
 
     @Test
     public void testSaveAddressThrowError() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-
         Optional<AddressDTO> addressDTO = this.mockAddressDTO();
-        String parsedAddressDTO = objectMapper.writeValueAsString(addressDTO.get());
+        String parsedAddressDTO = this.objectMapper.writeValueAsString(addressDTO.get());
         when(addressService.save(addressDTO.get())).thenThrow(RuntimeException.class);
 
         this.mockMvc.perform(post("/address").content(parsedAddressDTO).header("content-type", "application/json"))
@@ -116,10 +162,8 @@ public class AddressControllerTest {
 
     @Test
     public void testSaveAddressThrowInvalidZipCodeException() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-
         Optional<AddressDTO> addressDTO = this.mockAddressDTO();
-        String parsedAddressDTO = objectMapper.writeValueAsString(addressDTO.get());
+        String parsedAddressDTO = this.objectMapper.writeValueAsString(addressDTO.get());
         when(addressService.save(addressDTO.get())).thenThrow(InvalidZipCodeException.class);
 
         this.mockMvc.perform(post("/address/").content(parsedAddressDTO).header("content-type", "application/json"))
