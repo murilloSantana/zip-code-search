@@ -2,6 +2,7 @@ package com.zipcode.zipcodesearch.address.service;
 
 import com.zipcode.zipcodesearch.address.controller.dto.AddressDTO;
 import com.zipcode.zipcodesearch.model.Address;
+import com.zipcode.zipcodesearch.model.InvalidZipCodeException;
 import com.zipcode.zipcodesearch.usecase.address.dataprovider.AddressUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +15,7 @@ import org.springframework.cache.CacheManager;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -104,4 +106,21 @@ public class AddressServiceImplTest {
         assertEquals(addressDTOExpected, addressDTOActual);
     }
 
+    @Test
+    public void testSaveWithInvalidZipCode() {
+        Optional<AddressDTO> addressDTO = this.mockAddressDTO();
+        Optional<Address> address = this.mockAddress();
+        addressDTO.get().setZipCode("2223006c");
+
+        when(this.addressConverter.addressDTOToAddress(any())).thenReturn(address.get());
+        when(this.addressUseCase.save(any())).thenThrow(InvalidZipCodeException.class);
+
+        assertThrows(InvalidZipCodeException.class, () -> {
+            this.addressService.save(addressDTO.get());
+        });
+
+        verify(this.addressConverter, times(1)).addressDTOToAddress(any());
+        verify(this.addressUseCase, times(1)).save(any());
+        verify(this.addressConverter, times(0)).addressToAddressDTO(any(Optional.class));
+    }
 }

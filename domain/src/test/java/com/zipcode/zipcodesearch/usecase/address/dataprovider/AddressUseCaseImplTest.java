@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class AddressUseCaseImplTest {
     @InjectMocks
-    private AddressUseCaseImpl addressFinderImpl;
+    private AddressUseCaseImpl addressUseCaseImpl;
 
     @Mock
     private AddressDataProvider addressDataProvider;
@@ -33,8 +33,19 @@ public class AddressUseCaseImplTest {
     @Test
     public void testSearchInvalidZipCode() {
         assertThrows(InvalidZipCodeException.class, () -> {
-            addressFinderImpl.findByZipCode("2223006");
+            addressUseCaseImpl.findByZipCode("2223006");
         });
+    }
+
+    public Optional<Address> mockAddress() {
+        return Optional.ofNullable(Address
+                .builder()
+                .state("Rio de Janeiro")
+                .city("Rio de Janeiro")
+                .district("Flamengo")
+                .street("Rua Marques de Abrantes")
+                .zipCode("22230060")
+                .build());
     }
 
     @Test
@@ -56,7 +67,7 @@ public class AddressUseCaseImplTest {
 
         when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
-        Optional<Address> addressActual = addressFinderImpl.findByZipCode(zipCode);
+        Optional<Address> addressActual = addressUseCaseImpl.findByZipCode(zipCode);
 
         assertEquals(addressExpected, addressActual.get());
 
@@ -83,11 +94,24 @@ public class AddressUseCaseImplTest {
 
         when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
-        Optional<Address> addressActual = addressFinderImpl.findByZipCode(zipCode);
+        Optional<Address> addressActual = addressUseCaseImpl.findByZipCode(zipCode);
 
         assertEquals(addressExpected, addressActual.get());
 
         verify(addressDataProvider, times(1)).findByZipCode(any());
         verify(addressDataProvider, times(1)).findByZipCode(zipCode);
+    }
+
+    @Test
+    public void testSaveWithInvalidZipCode() {
+        Optional<Address> address = this.mockAddress();
+        address.get().setZipCode("2223006c");
+
+        assertThrows(InvalidZipCodeException.class, () -> {
+            this.addressUseCaseImpl.save(address.get());
+        });
+
+        verify(this.addressDataProvider, times(0)).saveAddress(any());
+
     }
 }

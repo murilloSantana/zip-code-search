@@ -113,4 +113,16 @@ public class AddressControllerTest {
         this.mockMvc.perform(post("/address").content(parsedAddressDTO).header("content-type", "application/json"))
                 .andExpect(status().isInternalServerError());
     }
+
+    @Test
+    public void testSaveAddressThrowInvalidZipCodeException() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Optional<AddressDTO> addressDTO = this.mockAddressDTO();
+        String parsedAddressDTO = objectMapper.writeValueAsString(addressDTO.get());
+        when(addressService.save(addressDTO.get())).thenThrow(InvalidZipCodeException.class);
+
+        this.mockMvc.perform(post("/address/").content(parsedAddressDTO).header("content-type", "application/json"))
+                .andExpect(status().isBadRequest());
+    }
 }

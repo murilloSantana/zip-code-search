@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class UseCaseConfiguration {
 
     @Bean
-    public AddressUseCase addressFinder(AddressDataProvider addressDataProvider) {
+    public AddressUseCase addressUseCase(AddressDataProvider addressDataProvider) {
         return new AddressUseCaseImpl(addressDataProvider);
     }
 }

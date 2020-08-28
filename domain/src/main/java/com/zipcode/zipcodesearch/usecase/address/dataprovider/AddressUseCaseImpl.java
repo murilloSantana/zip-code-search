@@ -1,10 +1,14 @@
 package com.zipcode.zipcodesearch.usecase.address.dataprovider;
 
+import com.zipcode.zipcodesearch.model.InvalidZipCodeException;
 import com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter.AddressDataProvider;
 import com.zipcode.zipcodesearch.model.Address;
 import com.zipcode.zipcodesearch.usecase.address.chain.AddressSearchChain;
 import com.zipcode.zipcodesearch.usecase.address.chain.InvalidZipCodeHandler;
 import com.zipcode.zipcodesearch.usecase.address.chain.ValidZipCodeHandler;
+import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeNumberValidator;
+import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeSizeValidator;
+import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeValidator;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
@@ -27,8 +31,16 @@ public class AddressUseCaseImpl implements AddressUseCase {
         return invalidZipCodeChain.check(zipCode);
     }
 
+    private boolean isInvalid(String zipCode) {
+        ZipCodeValidator zipCodeSizeValidator = new ZipCodeSizeValidator();
+        ZipCodeValidator zipCodeNumberValidator = new ZipCodeNumberValidator();
+        return !zipCodeSizeValidator.isValid(zipCode) || !zipCodeNumberValidator.isValid(zipCode);
+    }
+
     @Override
     public Optional<Address> save(Address address) {
+        if(this.isInvalid(address.getZipCode())) throw new InvalidZipCodeException("CPF Inválido");
+
         return this.addressDataProvider.saveAddress(address);
     }
 
