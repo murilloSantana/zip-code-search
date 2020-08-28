@@ -1,0 +1,7 @@
+version: '3.3'
+services:
+  zip_code_search:
+    build:
+      context: .
+    ports:
+      - 8080:8080
