@@ -15,7 +15,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class AddressConverterTest {
+public class AddressConverterIntegrationTest {
 
     private AddressConverter addressConverter;
 

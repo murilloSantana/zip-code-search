@@ -1,26 +1,32 @@
 package com.zipcode.zipcodesearch.service;
 
+import com.zipcode.zipcodesearch.Application;
 import com.zipcode.zipcodesearch.controller.address.dto.AddressDTO;
 import com.zipcode.zipcodesearch.model.Address;
 import com.zipcode.zipcodesearch.usecase.address.dataprovider.AddressUseCase;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.CacheManager;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class AddressServiceImplTest {
+@SpringBootTest(classes = Application.class)
+@ExtendWith({SpringExtension.class, MockitoExtension.class})
+@MockitoSettings(strictness = Strictness.LENIENT)
+public class AddressServiceImplIntegrationTest {
 
-    @InjectMocks
+    @Autowired
     private AddressServiceImpl addressService;
 
     @Mock
@@ -31,6 +37,12 @@ public class AddressServiceImplTest {
 
     @Autowired
     private CacheManager cacheManager;
+
+    @BeforeEach
+    public void setUp() {
+        addressService.setAddressUseCase(addressUseCase);
+        addressService.setAddressConverter(addressConverter);
+    }
 
     public Optional<AddressDTO> mockAddressDTO() {
         return Optional.ofNullable(AddressDTO
@@ -55,7 +67,7 @@ public class AddressServiceImplTest {
     }
 
     @Test
-    public void testFoundAddressByZipCode() {
+    public void testFoundAddressByZipCodeWithCache() {
         String zipCode = "22230060";
 
         Optional<AddressDTO> addressDTOExpected = this.mockAddressDTO();
@@ -64,44 +76,33 @@ public class AddressServiceImplTest {
         when(this.addressUseCase.findByZipCode(zipCode)).thenReturn(address);
         when(this.addressConverter.addressToAddressDTO(address.get())).thenReturn(addressDTOExpected);
 
-        Optional<AddressDTO> addressDTOActual = this.addressService.findByZipCode(zipCode);
+        Optional<AddressDTO> firstAddressDTOResponse = this.addressService.findByZipCode(zipCode);
+        Optional<AddressDTO> secondAddressDTOResponse = this.addressService.findByZipCode(zipCode);
 
         verify(this.addressUseCase, times(1)).findByZipCode(zipCode);
         verify(this.addressConverter, times(1)).addressToAddressDTO(address.get());
 
-        assertEquals(addressDTOExpected, addressDTOActual);
+        assertEquals(addressDTOExpected, firstAddressDTOResponse);
+        assertEquals(addressDTOExpected, secondAddressDTOResponse);
     }
 
     @Test
-    public void testNotFoundAddressByZipCode() {
-        String zipCode = "22230060";
+    public void testNotFoundAddressByZipCodeWithCache() {
+        String zipCode = "22230160";
 
-        when(this.addressUseCase.findByZipCode(zipCode)).thenReturn(Optional.empty());
-
-        Optional<AddressDTO> addressDTOActual = this.addressService.findByZipCode(zipCode);
-
-        verify(this.addressUseCase, times(1)).findByZipCode(zipCode);
-        verify(this.addressConverter, times(0)).addressEntityToAddress(any());
-
-        assertEquals(Optional.empty(), addressDTOActual);
-    }
-
-    @Test
-    public void testSave() {
         Optional<AddressDTO> addressDTOExpected = this.mockAddressDTO();
         Optional<Address> address = this.mockAddress();
 
-        when(this.addressConverter.addressDTOToAddress(addressDTOExpected.get())).thenReturn(address.get());
-        when(this.addressUseCase.save(address.get())).thenReturn(address);
-        when(this.addressConverter.addressToAddressDTO(address)).thenReturn(addressDTOExpected);
+        when(this.addressUseCase.findByZipCode(zipCode)).thenReturn(Optional.empty());
+        when(this.addressConverter.addressToAddressDTO(address.get())).thenReturn(addressDTOExpected);
 
-        Optional<AddressDTO> addressDTOActual = this.addressService.save(addressDTOExpected.get());
+        Optional<AddressDTO> firstAddressDTOResponse = this.addressService.findByZipCode(zipCode);
+        Optional<AddressDTO> secondAddressDTOResponse = this.addressService.findByZipCode(zipCode);
 
-        verify(this.addressConverter, times(1)).addressDTOToAddress(addressDTOExpected.get());
-        verify(this.addressUseCase, times(1)).save(address.get());
-        verify(this.addressConverter, times(1)).addressToAddressDTO(address);
+        verify(this.addressUseCase, times(2)).findByZipCode(zipCode);
+        verify(this.addressConverter, times(0)).addressToAddressDTO(address.get());
 
-        assertEquals(addressDTOExpected, addressDTOActual);
+        assertEquals(Optional.empty(), firstAddressDTOResponse);
+        assertEquals(Optional.empty(), secondAddressDTOResponse);
     }
-
 }

@@ -51,4 +51,13 @@ public class AddressServiceImpl implements AddressService {
     public void delete(AddressDTO addressDTO) {
 
     }
+
+    public void setAddressConverter(AddressConverter addressConverter) {
+        this.addressConverter = addressConverter;
+    }
+
+    public void setAddressUseCase(AddressUseCase addressUseCase) {
+        this.addressUseCase = addressUseCase;
+    }
+
 }
