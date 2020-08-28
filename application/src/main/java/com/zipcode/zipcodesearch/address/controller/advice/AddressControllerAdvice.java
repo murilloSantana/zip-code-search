@@ -14,4 +14,9 @@ public class AddressControllerAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(invalidZipCodeException.getMessage());
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity handleGenericException(Exception exception) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
+    }
+
 }

@@ -6,10 +6,16 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.net.URI;
 import java.util.Optional;
 
 @RestController
@@ -19,8 +25,25 @@ public class AddressController {
 
     private AddressService addressService;
 
+    @Value("${server.port}")
+    private String serverPort;
+
+    @Value("${server.servlet.contextPath}")
+    private String serverServletContextPath;
+
     public AddressController(AddressService addressService) {
         this.addressService = addressService;
+    }
+
+    private ResponseEntity buildAddressCreatedResponse(AddressDTO addressDTO) {
+        URI location = ServletUriComponentsBuilder.fromCurrentRequestUri()
+                .port(serverPort)
+                .path("/zipcode/{zipCode}")
+                .buildAndExpand(addressDTO.getZipCode()).toUri();
+
+        log.info("Address Created wit success: ADDRESS {}", addressDTO);
+
+        return ResponseEntity.created(location).build();
     }
 
     private ResponseEntity buildAddressFoundResponse(AddressDTO addressDTO) {
@@ -46,8 +69,8 @@ public class AddressController {
                     @ApiResponse(code = 500, message = "Some problem occurred on the server")
             }
     )
-    @GetMapping(path = "/{zipCode}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AddressDTO> findByZipCode(@PathVariable("zipCode") String zipCode) {
+    @GetMapping(path = "/zipcode/{zipcode}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AddressDTO> findByZipCode(@PathVariable("zipcode") String zipCode) {
 
         Optional<AddressDTO> addressDTO = this.addressService.findByZipCode(zipCode);
 
@@ -56,9 +79,11 @@ public class AddressController {
         return this.buildAddressNotFoundResponse(zipCode);
     }
 
-    @PostMapping
-    public ResponseEntity<AddressDTO> save(@RequestBody AddressDTO addressDTO) {
-        return ResponseEntity.ok(this.addressService.save(addressDTO).get());
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<URI> save(@RequestBody AddressDTO addressDTO, HttpServletRequest httpServletRequest) throws IOException, ServletException {
+        AddressDTO newAddress = this.addressService.save(addressDTO).get();
+
+        return this.buildAddressCreatedResponse(newAddress);
     }
 
 }

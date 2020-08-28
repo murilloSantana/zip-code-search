@@ -18,7 +18,13 @@ public class Application {
     @Bean
     public CommandLineRunner populateAddress(AddressRepository addressRepository) {
         return args -> {
-            addressRepository.save(AddressEntity.builder().zipCode("22230060").build());
+            addressRepository.save(AddressEntity.builder()
+                    .state("Rio de Janeiro")
+                    .city("Rio de Janeiro")
+                    .district("Flamengo")
+                    .street("Rua Marques de Abrantes")
+                    .zipCode("22230060")
+                    .build());
         };
     }
 }
