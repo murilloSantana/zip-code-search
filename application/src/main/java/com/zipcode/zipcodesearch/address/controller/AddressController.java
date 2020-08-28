@@ -12,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
 
@@ -80,7 +78,7 @@ public class AddressController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<URI> save(@RequestBody AddressDTO addressDTO, HttpServletRequest httpServletRequest) throws IOException, ServletException {
+    public ResponseEntity<URI> save(@RequestBody @Valid AddressDTO addressDTO) {
         AddressDTO newAddress = this.addressService.save(addressDTO).get();
 
         return this.buildAddressCreatedResponse(newAddress);
