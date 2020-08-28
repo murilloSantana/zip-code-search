@@ -5,6 +5,7 @@ import com.zipcode.zipcodesearch.model.Address;
 import com.zipcode.zipcodesearch.address.service.AddressConverter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -76,7 +77,7 @@ public class AddressDataProviderAdapterTest {
         Optional<Address> addressActual = this.addressDataProviderAdapter.findByZipCode(zipCode);
 
         verify(this.addressRepository, times(1)).findByZipCode(zipCode);
-        verify(this.addressConverter, times(0)).addressEntityToAddress(any());
+        verify(this.addressConverter, times(0)).addressEntityToAddress(any(AddressEntity.class));
 
         assertEquals(Optional.empty(), addressActual);
     }
@@ -88,7 +89,7 @@ public class AddressDataProviderAdapterTest {
 
         when(this.addressConverter.addressToAddressEntity(any())).thenReturn(addressEntity.get());
         when(this.addressRepository.save(any())).thenReturn(addressEntity.get());
-        when(this.addressConverter.addressEntityToAddress(any())).thenReturn(address);
+        when(this.addressConverter.addressEntityToAddress(any(AddressEntity.class))).thenReturn(address);
 
         Optional<Address> addressActual = this.addressDataProviderAdapter.saveAddress(address.get());
 

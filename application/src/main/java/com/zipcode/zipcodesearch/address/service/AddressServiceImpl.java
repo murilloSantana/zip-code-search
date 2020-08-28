@@ -24,8 +24,8 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Optional<List<AddressDTO>> listAll() {
-        return Optional.empty();
+    public List<AddressDTO> listAll() {
+        return this.addressConverter.addressToAddressDTO(this.addressUseCase.listAll());
     }
 
     @Override

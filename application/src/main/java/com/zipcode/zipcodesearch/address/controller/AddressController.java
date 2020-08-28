@@ -39,12 +39,6 @@ public class AddressController {
         return ResponseEntity.ok(addressDTOList);
     }
 
-    private ResponseEntity buildAddressListErrorResponse() {
-        log.info("There was an internal error on the server and it wasn't possible to list the addresses");
-
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
-    }
-
     private ResponseEntity buildAddressCreatedResponse(AddressDTO addressDTO) {
         URI location = ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .port(serverPort)
@@ -68,11 +62,7 @@ public class AddressController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AddressDTO>> listAll() {
-        Optional<List<AddressDTO>> addressDTOList = this.addressService.listAll();
-
-        if(addressDTOList.isPresent()) return this.buildAddressListSuccessResponse(addressDTOList.get());
-
-        return this.buildAddressListErrorResponse();
+        return this.buildAddressListSuccessResponse(this.addressService.listAll());
     }
 
     @ApiOperation(

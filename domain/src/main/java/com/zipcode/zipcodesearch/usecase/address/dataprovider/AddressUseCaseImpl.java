@@ -11,6 +11,8 @@ import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeSizeValidator;
 import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeValidator;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -20,6 +22,11 @@ public class AddressUseCaseImpl implements AddressUseCase {
 
     public AddressUseCaseImpl(AddressDataProvider addressDataProvider) {
         this.addressDataProvider = addressDataProvider;
+    }
+
+    @Override
+    public List<Address> listAll() {
+        return this.addressDataProvider.listAll();
     }
 
     @Override

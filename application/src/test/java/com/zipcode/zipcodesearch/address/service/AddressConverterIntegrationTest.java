@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -70,6 +72,15 @@ public class AddressConverterIntegrationTest {
     }
 
     @Test
+    public void testConvertAddressListToAddressDTOList() {
+        List<Address> addressList = Arrays.asList(this.mockAddress(), this.mockAddress());
+        List<AddressDTO> addressDTOListExpected = Arrays.asList(this.mockAddressDTO(), this.mockAddressDTO());
+        List<AddressDTO> addressDTOListActual = this.addressConverter.addressToAddressDTO(addressList);
+
+        assertEquals(addressDTOListExpected, addressDTOListActual);
+    }
+
+    @Test
     public void testConvertAddressToAddressDTO() {
         Address address = this.mockAddress();
         AddressDTO addressDTOExpected = this.mockAddressDTO();
@@ -104,5 +115,15 @@ public class AddressConverterIntegrationTest {
 
         assertEquals(addressExpected, addressActual.get());
     }
+
+    @Test
+    public void testConvertAddressEntityListToAddressList() {
+        List<AddressEntity> addressEntityList = Arrays.asList(this.mockAddressEntity(), this.mockAddressEntity());
+        List<Address> addressListExpected = Arrays.asList(this.mockAddress(), this.mockAddress());
+        List<Address> addressListActual = this.addressConverter.addressEntityToAddress(addressEntityList);
+
+        assertEquals(addressListExpected, addressListActual);
+    }
+
 
 }

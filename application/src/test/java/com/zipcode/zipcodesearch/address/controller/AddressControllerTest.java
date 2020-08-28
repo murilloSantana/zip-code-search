@@ -55,7 +55,7 @@ public class AddressControllerTest {
                 .build());
     }
 
-    public Optional<List<AddressDTO>> mockAddressDTOList() {
+    public List<AddressDTO> mockAddressDTOList() {
         AddressDTO firstAddress = AddressDTO
                 .builder()
                 .state("Rio de Janeiro")
@@ -74,24 +74,22 @@ public class AddressControllerTest {
                 .zipCode("22212345")
                 .build();
 
-        return Optional.ofNullable(Arrays.asList(firstAddress, secondAddress));
+        return Arrays.asList(firstAddress, secondAddress);
     }
 
     @Test
     public void testListAllAddresses() throws Exception {
-        Optional<List<AddressDTO>> addressDTOList = this.mockAddressDTOList();
+        List<AddressDTO> addressDTOList = this.mockAddressDTOList();
 
         when(addressService.listAll()).thenReturn(addressDTOList);
 
         this.mockMvc.perform(get("/address"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(this.objectMapper.writeValueAsString(addressDTOList.get())));;
+                .andExpect(content().string(this.objectMapper.writeValueAsString(addressDTOList)));;
     }
 
     @Test
     public void testListAllAddressesThrowError() throws Exception {
-        Optional<List<AddressDTO>> addressDTOList = this.mockAddressDTOList();
-
         when(addressService.listAll()).thenThrow(RuntimeException.class);;
 
         this.mockMvc.perform(get("/address"))

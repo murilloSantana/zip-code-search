@@ -6,6 +6,7 @@ import com.zipcode.zipcodesearch.model.Address;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +20,10 @@ public class AddressConverter {
 
     public Address addressDTOToAddress(AddressDTO addressDTO) {
         return orikaMapperFacade.map(addressDTO, Address.class);
+    }
+
+    public List<AddressDTO> addressToAddressDTO(List<Address> addressList) {
+        return orikaMapperFacade.mapAsList(addressList, AddressDTO.class);
     }
 
     public Optional<AddressDTO> addressToAddressDTO(Optional<Address> address) {
@@ -35,6 +40,10 @@ public class AddressConverter {
 
     public Optional<Address> addressEntityToAddress(AddressEntity addressEntity) {
         return Optional.ofNullable(orikaMapperFacade.map(addressEntity, Address.class));
+    }
+
+    public List<Address> addressEntityToAddress(List<AddressEntity> addressEntityList) {
+        return orikaMapperFacade.mapAsList(addressEntityList, Address.class);
     }
 
 }

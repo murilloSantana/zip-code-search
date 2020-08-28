@@ -1,6 +1,7 @@
 package com.zipcode.zipcodesearch.address.service;
 
 import com.zipcode.zipcodesearch.address.controller.dto.AddressDTO;
+import com.zipcode.zipcodesearch.address.dataprovider.model.AddressEntity;
 import com.zipcode.zipcodesearch.model.Address;
 import com.zipcode.zipcodesearch.model.InvalidZipCodeException;
 import com.zipcode.zipcodesearch.usecase.address.dataprovider.AddressUseCase;
@@ -12,6 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -57,6 +60,22 @@ public class AddressServiceImplTest {
     }
 
     @Test
+    public void testListAddresses() {
+        List<AddressDTO> addressDTOListExpected = Arrays.asList(this.mockAddressDTO().get(), this.mockAddressDTO().get());
+        List<Address> addressList = Arrays.asList(this.mockAddress().get(), this.mockAddress().get());
+
+        when(this.addressUseCase.listAll()).thenReturn(addressList);
+        when(this.addressConverter.addressToAddressDTO(addressList)).thenReturn(addressDTOListExpected);
+
+        List<AddressDTO> addressDTOListActual = this.addressService.listAll();
+
+        verify(this.addressUseCase, times(1)).listAll();
+        verify(this.addressConverter, times(1)).addressToAddressDTO(addressList);
+
+        assertEquals(addressDTOListExpected, addressDTOListActual);
+    }
+
+    @Test
     public void testFoundAddressByZipCode() {
         String zipCode = "22230060";
 
@@ -83,7 +102,7 @@ public class AddressServiceImplTest {
         Optional<AddressDTO> addressDTOActual = this.addressService.findByZipCode(zipCode);
 
         verify(this.addressUseCase, times(1)).findByZipCode(zipCode);
-        verify(this.addressConverter, times(0)).addressEntityToAddress(any());
+        verify(this.addressConverter, times(0)).addressEntityToAddress(any(AddressEntity.class));
 
         assertEquals(Optional.empty(), addressDTOActual);
     }

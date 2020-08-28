@@ -6,6 +6,7 @@ import com.zipcode.zipcodesearch.model.Address;
 import com.zipcode.zipcodesearch.address.service.AddressConverter;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +19,11 @@ public class AddressDataProviderAdapter implements AddressDataProvider {
     public AddressDataProviderAdapter(AddressRepository addressRepository, AddressConverter addressConverter) {
         this.addressRepository = addressRepository;
         this.addressConverter = addressConverter;
+    }
+
+    @Override
+    public List<Address> listAll() {
+        return this.addressConverter.addressEntityToAddress(this.addressRepository.findAll());
     }
 
     @Override

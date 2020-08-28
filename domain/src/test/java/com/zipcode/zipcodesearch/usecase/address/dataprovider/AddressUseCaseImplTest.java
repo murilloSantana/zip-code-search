@@ -12,6 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -114,4 +116,18 @@ public class AddressUseCaseImplTest {
         verify(this.addressDataProvider, times(0)).saveAddress(any());
 
     }
+
+    @Test
+    public void testListAddresses() {
+        List<Address> addressListExpected = Arrays.asList(this.mockAddress().get(), this.mockAddress().get());
+
+        when(this.addressDataProvider.listAll()).thenReturn(addressListExpected);
+
+        List<Address> addressListActual = this.addressUseCaseImpl.listAll();
+
+        verify(this.addressDataProvider, times(1)).listAll();
+
+        assertEquals(addressListExpected, addressListActual);
+    }
+
 }
