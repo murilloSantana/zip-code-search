@@ -3,6 +3,7 @@ package com.zipcode.zipcodesearch.usecase.address.chain;
 
 import com.zipcode.zipcodesearch.model.Address;
 import com.zipcode.zipcodesearch.model.InvalidZipCodeException;
+import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeNumberValidator;
 import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeSizeValidator;
 import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,8 @@ public class InvalidZipCodeHandler implements AddressSearchChain {
     }
 
     private boolean isInvalid(String zipCode) {
-        ZipCodeValidator zipCodeValidator = new ZipCodeSizeValidator();
-        return !zipCodeValidator.isValid(zipCode);
+        ZipCodeValidator zipCodeSizeValidator = new ZipCodeSizeValidator();
+        ZipCodeValidator zipCodeNumberValidator = new ZipCodeNumberValidator();
+        return !zipCodeSizeValidator.isValid(zipCode) || !zipCodeNumberValidator.isValid(zipCode);
     }
 }

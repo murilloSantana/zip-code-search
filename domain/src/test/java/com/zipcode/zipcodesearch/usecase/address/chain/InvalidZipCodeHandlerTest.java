@@ -24,9 +24,17 @@ public class InvalidZipCodeHandlerTest {
     private AddressSearchChain addressSearchChain;
 
     @Test
-    public void testInvalidZipCode() {
+    public void testInvalidZipCodeSize() {
         assertThrows(InvalidZipCodeException.class, () -> {
             String zipCode = "2223006";
+            invalidZipCodeHandler.check(zipCode);
+        });
+    }
+
+    @Test
+    public void testInvalidZipCodeNumber() {
+        assertThrows(InvalidZipCodeException.class, () -> {
+            String zipCode = "2223006m";
             invalidZipCodeHandler.check(zipCode);
         });
     }
