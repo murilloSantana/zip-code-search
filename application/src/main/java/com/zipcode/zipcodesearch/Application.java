@@ -1,7 +1,7 @@
 package com.zipcode.zipcodesearch;
 
-import com.zipcode.zipcodesearch.dataprovider.model.AddressEntity;
-import com.zipcode.zipcodesearch.dataprovider.repository.AddressRepository;
+import com.zipcode.zipcodesearch.address.dataprovider.model.AddressEntity;
+import com.zipcode.zipcodesearch.address.dataprovider.repository.AddressRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
