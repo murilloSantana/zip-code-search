@@ -3,6 +3,7 @@
 ### Sumário
 - [Introdução](#introdução)
 - [Como rodar o projeto?](#como-rodar-o-projeto)
+- [Comandos úteis](#comandos-úteis)
 - [Por que Java?](#por-que-java)
 - [Camadas](#camadas)
 - [Arquitetura](#arquitetura)
@@ -17,14 +18,14 @@ Zip Code Search é um projeto para busca de CEP. O principal intuito do projeto 
 ### Como rodar o projeto?
 #### Docker
 
-1. É possivel rodar o projeto em containers docker. Execute o comando `make docker-run` para iniciar a aplicação (deve ser executado na raíz do projeto)
+- É possivel rodar o projeto em containers docker. Execute o comando `make docker-run` para iniciar a aplicação (deve ser executado na raíz do projeto)
     ##### Pré-requisitos
     - [Docker 19.x](https://docs.docker.com/engine/install/)
     - [Docker-compose 1.26.0](https://docs.docker.com/compose/install/)
     
 #### Local
 
-1. Também é possivel rodar a aplicação diretamente na máquina. Inicie a aplicação com o comando `make local-run` (deve ser executado na raíz do projeto)
+- Também é possivel rodar a aplicação diretamente na máquina. Inicie a aplicação com o comando `make local-run` (deve ser executado na raíz do projeto)
 	##### Pré-requisitos
 	- [Java 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html**)
 
