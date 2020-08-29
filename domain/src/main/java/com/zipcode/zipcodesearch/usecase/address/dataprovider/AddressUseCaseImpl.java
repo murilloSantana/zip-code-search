@@ -50,7 +50,7 @@ public class AddressUseCaseImpl implements AddressUseCase {
     public Optional<Address> save(Address address) {
         if(this.isInvalid(address.getZipCode())) throw new InvalidZipCodeException("CPF Inválido");
 
-        return this.addressDataProvider.saveAddress(address);
+        return this.addressDataProvider.save(address);
     }
 
     @Override

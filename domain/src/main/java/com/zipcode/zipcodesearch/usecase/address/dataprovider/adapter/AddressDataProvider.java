@@ -9,5 +9,5 @@ public interface AddressDataProvider {
     List<Address> listAll();
     Optional<Address> findById(Long id);
     Optional<Address> findByZipCode(String zipCode);
-    Optional<Address> saveAddress(Address address);
+    Optional<Address> save(Address address);
 }

@@ -39,7 +39,7 @@ public class AddressDataProviderAdapter implements AddressDataProvider {
     }
 
     @Override
-    public Optional<Address> saveAddress(Address address) {
+    public Optional<Address> save(Address address) {
         AddressData addressData = this.addressRepository.save(this.addressConverter.addressToAddressEntity(address));
         return this.addressConverter.addressEntityToAddress(addressData);
     }

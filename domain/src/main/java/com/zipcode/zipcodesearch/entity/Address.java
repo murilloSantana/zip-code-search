@@ -3,6 +3,7 @@ package com.zipcode.zipcodesearch.entity;
 import java.util.Objects;
 
 public class Address {
+    private Long id;
     private String state;
     private String city;
     private String district;
@@ -15,6 +16,23 @@ public class Address {
         this.district = district;
         this.street = street;
         this.zipCode = zipCode;
+    }
+
+    public Address(Long id, String state, String city, String district, String street, String zipCode) {
+        this.id = id;
+        this.state = state;
+        this.city = city;
+        this.district = district;
+        this.street = street;
+        this.zipCode = zipCode;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getState() {
@@ -62,7 +80,8 @@ public class Address {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return state.equals(address.state) &&
+        return Objects.equals(id, address.id) &&
+                state.equals(address.state) &&
                 city.equals(address.city) &&
                 district.equals(address.district) &&
                 street.equals(address.street) &&
@@ -71,6 +90,6 @@ public class Address {
 
     @Override
     public int hashCode() {
-        return Objects.hash(state, city, district, street, zipCode);
+        return Objects.hash(id, state, city, district, street, zipCode);
     }
 }

@@ -78,7 +78,7 @@ public class AddressDataProviderAdapterTest {
         when(this.addressRepository.save(any())).thenReturn(addressEntity.get());
         when(this.addressConverter.addressEntityToAddress(any(AddressData.class))).thenReturn(address);
 
-        Optional<Address> addressActual = this.addressDataProviderAdapter.saveAddress(address.get());
+        Optional<Address> addressActual = this.addressDataProviderAdapter.save(address.get());
 
         verify(this.addressConverter, times(1)).addressToAddressEntity(address.get());
         verify(this.addressRepository, times(1)).save(addressEntity.get());
