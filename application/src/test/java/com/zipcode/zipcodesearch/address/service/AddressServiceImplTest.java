@@ -3,6 +3,7 @@ package com.zipcode.zipcodesearch.address.service;
 import com.zipcode.zipcodesearch.address.controller.dto.AddressDTO;
 import com.zipcode.zipcodesearch.address.dataprovider.model.AddressData;
 import com.zipcode.zipcodesearch.entity.Address;
+import com.zipcode.zipcodesearch.entity.AddressNotFoundException;
 import com.zipcode.zipcodesearch.entity.InvalidZipCodeException;
 import com.zipcode.zipcodesearch.usecase.address.dataprovider.AddressUseCase;
 import org.junit.jupiter.api.Test;
@@ -128,6 +129,66 @@ public class AddressServiceImplTest {
 
         verify(this.addressConverter, times(1)).addressDTOToAddress(any());
         verify(this.addressUseCase, times(1)).save(any());
+        verify(this.addressConverter, times(0)).addressToAddressDTO(any(Optional.class));
+    }
+
+    @Test
+    public void testUpdate() {
+        Long addressId = 2345678L;
+
+        Optional<AddressDTO> addressDTOExpected = this.mockAddressDTO();
+        Optional<Address> address = this.mockAddress();
+
+        when(this.addressConverter.addressDTOToAddress(addressDTOExpected.get())).thenReturn(address.get());
+        when(this.addressUseCase.update(addressId, address.get())).thenReturn(address);
+        when(this.addressConverter.addressToAddressDTO(address)).thenReturn(addressDTOExpected);
+
+        Optional<AddressDTO> addressDTOActual = this.addressService.update(addressId, addressDTOExpected.get());
+
+        verify(this.addressConverter, times(1)).addressDTOToAddress(addressDTOExpected.get());
+        verify(this.addressUseCase, times(1)).update(addressId, address.get());
+        verify(this.addressConverter, times(1)).addressToAddressDTO(address);
+
+        assertEquals(addressDTOExpected, addressDTOActual);
+    }
+
+    @Test
+    public void testUpdateWithInvalidZipCode() {
+        Long addressId = 2345678L;
+
+        Optional<AddressDTO> addressDTO = this.mockAddressDTO();
+        Optional<Address> address = this.mockAddress();
+        addressDTO.get().setZipCode("2223006c");
+
+        when(this.addressConverter.addressDTOToAddress(any())).thenReturn(address.get());
+        when(this.addressUseCase.update(anyLong(), any())).thenThrow(InvalidZipCodeException.class);
+
+        assertThrows(InvalidZipCodeException.class, () -> {
+            this.addressService.update(addressId, addressDTO.get());
+        });
+
+        verify(this.addressConverter, times(1)).addressDTOToAddress(any());
+        verify(this.addressUseCase, times(1)).update(anyLong(), any());
+        verify(this.addressConverter, times(0)).addressToAddressDTO(any(Optional.class));
+    }
+
+    @Test
+    public void testUpdateAddresstFound() {
+        Long addressId = 2345678L;
+
+        Optional<AddressDTO> addressDTO = this.mockAddressDTO();
+        Optional<Address> address = this.mockAddress();
+        addressDTO.get().setZipCode("2223006c");
+
+        when(this.addressConverter.addressDTOToAddress(any())).thenReturn(address.get());
+        when(this.addressUseCase.update(anyLong(), any())).thenThrow(AddressNotFoundException.class);
+
+        assertThrows(AddressNotFoundException.class, () -> {
+            this.addressService.update(addressId, addressDTO.get());
+        });
+
+        verify(this.addressConverter, times(1)).addressDTOToAddress(any());
+        verify(this.addressUseCase, times(1)).update(anyLong(), any());
         verify(this.addressConverter, times(0)).addressToAddressDTO(any(Optional.class));
     }
 }

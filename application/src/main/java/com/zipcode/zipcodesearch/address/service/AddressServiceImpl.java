@@ -48,8 +48,8 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Optional<AddressDTO> update(Long addressId, AddressDTO addressDTO) {
-        this.addressUseCase.update(addressId, this.addressConverter.addressDTOToAddress(addressDTO));
-        return Optional.empty();
+        Optional<Address> address = this.addressUseCase.update(addressId, this.addressConverter.addressDTOToAddress(addressDTO));
+        return this.addressConverter.addressToAddressDTO(address);
     }
 
     @Override
