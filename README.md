@@ -8,8 +8,9 @@
 - [Arquitetura](#arquitetura)
 - [Domínio](#domínio)
 - [Logs](#logs)
-- [Swagger] (#swagger)
+- [Swagger](#swagger)
 - [Requisições HTTP](#requisições-http)
+
 ### Introdução
 Zip Code Search é um projeto para busca de CEP. O principal intuito do projeto é demonstrar boas práticas de desenvolvimento aplicando técnicas de clean architecture, clean code e padrões GOF.
 
