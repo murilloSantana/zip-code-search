@@ -30,36 +30,17 @@ public class AddressConverterIntegrationTest {
     }
 
     public AddressEntity mockAddressEntity() {
-        return AddressEntity
-                .builder()
-                .state("Rio de Janeiro")
-                .city("Rio de Janeiro")
-                .district("Flamengo")
-                .street("Rua Marques de Abrantes")
-                .zipCode("22230060")
-                .build();
+        return new AddressEntity("Rio de Janeiro", "Rio de Janeiro",
+                "Flamengo", "Rua Marques de Abrantes", "22230060");
     }
 
     public Address mockAddress() {
-        return Address
-                .builder()
-                .state("Rio de Janeiro")
-                .city("Rio de Janeiro")
-                .district("Flamengo")
-                .street("Rua Marques de Abrantes")
-                .zipCode("22230060")
-                .build();
+        return new Address("Rio de Janeiro", "Rio de Janeiro",
+                "Flamengo", "Rua Marques de Abrantes", "22230060");
     }
 
     public AddressDTO mockAddressDTO() {
-        return AddressDTO
-                .builder()
-                .state("Rio de Janeiro")
-                .city("Rio de Janeiro")
-                .district("Flamengo")
-                .street("Rua Marques de Abrantes")
-                .zipCode("22230060")
-                .build();
+        return new AddressDTO("Rio de Janeiro", "Rio de Janeiro", "Flamengo", "Rua Marques de Abrantes", "22230060");
     }
 
     @Test

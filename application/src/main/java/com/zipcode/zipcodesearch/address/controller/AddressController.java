@@ -5,7 +5,8 @@ import com.zipcode.zipcodesearch.address.service.AddressService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +18,13 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-
 @RestController
 @RequestMapping("/address")
-@Slf4j
 public class AddressController {
 
     private AddressService addressService;
+
+    private static final Logger log = LoggerFactory.getLogger(AddressController.class);
 
     @Value("${server.port}")
     private String serverPort;

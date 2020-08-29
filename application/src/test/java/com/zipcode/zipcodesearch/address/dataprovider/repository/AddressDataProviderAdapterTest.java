@@ -28,25 +28,13 @@ public class AddressDataProviderAdapterTest {
     private AddressConverter addressConverter;
 
     public Optional<AddressEntity> mockAddressEntity() {
-        return Optional.ofNullable(AddressEntity
-                .builder()
-                .state("Rio de Janeiro")
-                .city("Rio de Janeiro")
-                .district("Flamengo")
-                .street("Rua Marques de Abrantes")
-                .zipCode("22230060")
-                .build());
+        return Optional.ofNullable(new AddressEntity("Rio de Janeiro",
+                "Rio de Janeiro", "Flamengo", "Rua Marques de Abrantes", "22230060"));
     }
 
     public Optional<Address> mockAddress() {
-        return Optional.ofNullable(Address
-                .builder()
-                .state("Rio de Janeiro")
-                .city("Rio de Janeiro")
-                .district("Flamengo")
-                .street("Rua Marques de Abrantes")
-                .zipCode("22230060")
-                .build());
+        return Optional.ofNullable(new Address("Rio de Janeiro",
+                "Rio de Janeiro", "Flamengo", "Rua Marques de Abrantes", "22230060"));
     }
 
     @Test

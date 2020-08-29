@@ -45,35 +45,16 @@ public class AddressControllerTest {
     }
 
     public Optional<AddressDTO> mockAddressDTO() {
-        return Optional.ofNullable(AddressDTO
-                .builder()
-                .state("Rio de Janeiro")
-                .city("Rio de Janeiro")
-                .district("Flamengo")
-                .street("Rua Marques de Abrantes")
-                .zipCode("22230060")
-                .build());
+        return Optional.ofNullable(new AddressDTO("Rio de Janeiro",
+                "Rio de Janeiro", "Flamengo", "Rua Marques de Abrantes", "22230060"));
     }
 
     public List<AddressDTO> mockAddressDTOList() {
-        AddressDTO firstAddress = AddressDTO
-                .builder()
-                .state("Rio de Janeiro")
-                .city("Rio de Janeiro")
-                .district("Flamengo")
-                .street("Rua Marques de Abrantes")
-                .zipCode("22230060")
-                .build();
+        AddressDTO firstAddress = new AddressDTO("Rio de Janeiro",
+                "Rio de Janeiro", "Flamengo", "Rua Marques de Abrantes", "22230060");
 
-        AddressDTO secondAddress = AddressDTO
-                .builder()
-                .state("Rio de Janeiro")
-                .city("Duque de Caxias")
-                .district("PQ. Lafaiete")
-                .street("Rua David de Oliveira")
-                .zipCode("22212345")
-                .build();
-
+        AddressDTO secondAddress = new AddressDTO("Rio de Janeiro",
+                "Duque de Caxias", "PQ. Lafaiete", "Rua David de Oliveira", "22212345");
         return Arrays.asList(firstAddress, secondAddress);
     }
 
