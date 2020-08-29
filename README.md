@@ -6,14 +6,15 @@ Zip Code Search é um projeto para busca de CEP. O principal intuito do projeto 
 ### Como rodar o projeto?
 #### Docker
 
-1. É possivel executar o projeto em containers docker, basta executar o comando `docker-compose up --build`
+1. É possivel rodar o projeto em containers docker. Execute o comando `docker-compose build` para gerar a imagem do container
+2. Execute o comando `docker-compose up` para iniciar a aplicação
     ##### Pré-requisitos
     - Docker 19.x
     - Docker-compose 1.26.0
     
 #### Local
 
-1. Também é possivel executar a aplicação diretamente na máquina. Gere o artefato .jar  com o comando `./mvnw install` (deve ser executado na raíz do projeto)
+1. Também é possivel rodar a aplicação diretamente na máquina. Gere o artefato .jar  com o comando `./mvnw install` (deve ser executado na raíz do projeto)
 2. Inicie a aplicação com o comando `./mvnw spring-boot:run -pl application` (a api roda na porta padrão 8080)
 	##### Pré-requisitos
 	- Java 11
