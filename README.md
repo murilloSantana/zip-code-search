@@ -3,16 +3,21 @@
 ### Introdução
 Zip Code Search é um projeto para busca de CEP. O principal intuito do projeto é demonstrar boas práticas de desenvolvimento aplicando técnicas de clean architecture, clean code e padrões GOF.
 
-### Pré-requisitos
-* Java 11 (obrigatório)
-* Docker 19.x (opcional)
-* Docker-compose 1.26.0 (opcional)
-	
 ### Como rodar o projeto?
-* Gere o artefato .jar com o comando `./mvnw install` (deve ser executado na raíz do projeto)
-* Inicie a aplicação com o comando `./mvnw spring-boot:run -pl application` (a api roda na porta padrão 8080)
-* É possivel executar o projeto em containers docker (é necessário ter o artefato .jar gerado previamente) basta executar o comando `docker-compose up --build`
-	
+#### Docker
+
+1. É possivel executar o projeto em containers docker, basta executar o comando `docker-compose up --build`
+    ##### Pré-requisitos
+    - Docker 19.x
+    - Docker-compose 1.26.0
+    
+#### Local
+
+1. Também é possivel executar a aplicação diretamente na máquina. Gere o artefato .jar  com o comando `./mvnw install` (deve ser executado na raíz do projeto)
+2. Inicie a aplicação com o comando `./mvnw spring-boot:run -pl application` (a api roda na porta padrão 8080)
+	##### Pré-requisitos
+	- Java 11
+
 ### Por que Java?
 <p>A principal funcionalidade da aplicação é a busca baseada em CEP, onde é usada recursividade para resolver esse desafio. </p>
 <p>Java lida melhor com processamentos recursivos e uso intensivo de CPU, se comparado ao Nodejs. Além disso, o sistemas de módulos (Jigsaw), incluído a partir da versão 9 do Java, teve um grande peso na escolha da linguagem, pois o Java permite um melhor encapsulamento do coração da aplicação: a regra de negócio. Por último, a escolha por Java  deu a possibilidade de usar o spring boot, que traz uma série de facilidades como configuração do swagger via código, configuração rápida da camada de dados, configuração simplificada da segurança da API, além de uma série de outras funcionalidades.</p>
