@@ -1,6 +1,6 @@
 package com.zipcode.zipcodesearch.address.dataprovider.repository;
 
-import com.zipcode.zipcodesearch.address.dataprovider.model.AddressEntity;
+import com.zipcode.zipcodesearch.address.dataprovider.model.AddressData;
 import com.zipcode.zipcodesearch.entity.Address;
 import com.zipcode.zipcodesearch.address.service.AddressConverter;
 import org.junit.jupiter.api.Test;
@@ -27,8 +27,8 @@ public class AddressDataProviderAdapterTest {
     @Mock
     private AddressConverter addressConverter;
 
-    public Optional<AddressEntity> mockAddressEntity() {
-        return Optional.ofNullable(new AddressEntity("Rio de Janeiro",
+    public Optional<AddressData> mockAddressEntity() {
+        return Optional.ofNullable(new AddressData("Rio de Janeiro",
                 "Rio de Janeiro", "Flamengo", "Rua Marques de Abrantes", "22230060"));
     }
 
@@ -41,7 +41,7 @@ public class AddressDataProviderAdapterTest {
     public void testFoundAddressByZipCode() {
         String zipCode = "22230060";
 
-        Optional<AddressEntity> addressEntity = this.mockAddressEntity();
+        Optional<AddressData> addressEntity = this.mockAddressEntity();
         Optional<Address> addressExpected = this.mockAddress();
 
         when(this.addressRepository.findByZipCode(zipCode)).thenReturn(addressEntity);
@@ -64,19 +64,19 @@ public class AddressDataProviderAdapterTest {
         Optional<Address> addressActual = this.addressDataProviderAdapter.findByZipCode(zipCode);
 
         verify(this.addressRepository, times(1)).findByZipCode(zipCode);
-        verify(this.addressConverter, times(0)).addressEntityToAddress(any(AddressEntity.class));
+        verify(this.addressConverter, times(0)).addressEntityToAddress(any(AddressData.class));
 
         assertEquals(Optional.empty(), addressActual);
     }
 
     @Test
     public void testSaveAddress() {
-        Optional<AddressEntity> addressEntity = this.mockAddressEntity();
+        Optional<AddressData> addressEntity = this.mockAddressEntity();
         Optional<Address> address = this.mockAddress();
 
         when(this.addressConverter.addressToAddressEntity(any())).thenReturn(addressEntity.get());
         when(this.addressRepository.save(any())).thenReturn(addressEntity.get());
-        when(this.addressConverter.addressEntityToAddress(any(AddressEntity.class))).thenReturn(address);
+        when(this.addressConverter.addressEntityToAddress(any(AddressData.class))).thenReturn(address);
 
         Optional<Address> addressActual = this.addressDataProviderAdapter.saveAddress(address.get());
 

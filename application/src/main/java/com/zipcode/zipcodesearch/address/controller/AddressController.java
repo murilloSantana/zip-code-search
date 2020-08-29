@@ -45,9 +45,15 @@ public class AddressController {
                 .path("/zipcode/{zipCode}")
                 .buildAndExpand(addressDTO.getZipCode()).toUri();
 
-        log.info("Address Created wit success: ADDRESS {}", addressDTO);
+        log.info("Address Created with success: ADDRESS {}", addressDTO);
 
         return ResponseEntity.created(location).build();
+    }
+
+    private ResponseEntity buildAddressUpdatedResponse(AddressDTO addressDTO) {
+        log.info("Address Updated with success: ADDRESS {}", addressDTO);
+
+        return ResponseEntity.ok(addressDTO);
     }
 
     private ResponseEntity buildAddressFoundResponse(AddressDTO addressDTO) {
@@ -95,4 +101,10 @@ public class AddressController {
         return this.buildAddressCreatedResponse(newAddress);
     }
 
+    @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity update(@PathVariable("id") Long addressId, @RequestBody @Valid AddressDTO addressDTO) {
+        AddressDTO newAddress = this.addressService.update(addressId, addressDTO).get();
+
+        return this.buildAddressUpdatedResponse(newAddress);
+    }
 }

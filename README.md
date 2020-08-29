@@ -54,7 +54,7 @@ O domínio é o coração de qualquer aplicação e por isso merece um tópico e
 * **Use case**: Contém as regras de negócio da aplicação, eles são a porta de entrada do domínio e são acessíveis apenas via abstrações.
 		
 ### Logs
-Os logs estão estruturados em formato json e salvos em dois arquivos um para logs comuns e outro para errors e warning. Segue um exemplo da estrutura:
+Os logs estão estruturados em formato json e salvos em dois arquivos: um para logs comuns e outro para errors e warning. Segue um exemplo da estrutura:
     
     {"@timestamp":"2020-08-28T03:54:17.819-03:00","@version":"1","message":"Address Created wit success: ADDRESS AddressDTO(zipCode=23456781, street=Rua David de Oliveira, district=PQ. Lafaiete, city=Duque de Caxias, state=Rio de Janeiro)","logger_name":"com.zipcode.zipcodesearch.address.controller.AddressController","thread_name":"http-nio-8080-exec-2","level":"INFO","level_value":20000}
 	

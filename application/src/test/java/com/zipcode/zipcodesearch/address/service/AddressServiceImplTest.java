@@ -1,7 +1,7 @@
 package com.zipcode.zipcodesearch.address.service;
 
 import com.zipcode.zipcodesearch.address.controller.dto.AddressDTO;
-import com.zipcode.zipcodesearch.address.dataprovider.model.AddressEntity;
+import com.zipcode.zipcodesearch.address.dataprovider.model.AddressData;
 import com.zipcode.zipcodesearch.entity.Address;
 import com.zipcode.zipcodesearch.entity.InvalidZipCodeException;
 import com.zipcode.zipcodesearch.usecase.address.dataprovider.AddressUseCase;
@@ -90,7 +90,7 @@ public class AddressServiceImplTest {
         Optional<AddressDTO> addressDTOActual = this.addressService.findByZipCode(zipCode);
 
         verify(this.addressUseCase, times(1)).findByZipCode(zipCode);
-        verify(this.addressConverter, times(0)).addressEntityToAddress(any(AddressEntity.class));
+        verify(this.addressConverter, times(0)).addressEntityToAddress(any(AddressData.class));
 
         assertEquals(Optional.empty(), addressDTOActual);
     }

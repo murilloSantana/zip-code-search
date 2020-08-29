@@ -1,6 +1,6 @@
 package com.zipcode.zipcodesearch;
 
-import com.zipcode.zipcodesearch.address.dataprovider.model.AddressEntity;
+import com.zipcode.zipcodesearch.address.dataprovider.model.AddressData;
 import com.zipcode.zipcodesearch.address.dataprovider.repository.AddressRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +18,7 @@ public class Application {
     @Bean
     public CommandLineRunner populateAddress(AddressRepository addressRepository) {
         return args -> {
-            addressRepository.save(new AddressEntity("Rio de Janeiro", "Rio de Janeiro",
+            addressRepository.save(new AddressData("Rio de Janeiro", "Rio de Janeiro",
                     "Flamengo", "Rua Marques de Abrantes", "22230060"));
         };
     }

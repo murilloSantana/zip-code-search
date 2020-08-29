@@ -3,6 +3,7 @@ package com.zipcode.zipcodesearch.address.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zipcode.zipcodesearch.address.controller.dto.AddressDTO;
 import com.zipcode.zipcodesearch.address.service.AddressService;
+import com.zipcode.zipcodesearch.entity.AddressNotFoundException;
 import com.zipcode.zipcodesearch.entity.InvalidZipCodeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,8 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -146,6 +146,55 @@ public class AddressControllerTest {
         when(addressService.save(addressDTO.get())).thenThrow(InvalidZipCodeException.class);
 
         this.mockMvc.perform(post("/address/").content(parsedAddressDTO).header("content-type", "application/json"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testUpdateAddress() throws Exception {
+        Long addressId = 1234L;
+
+        Optional<AddressDTO> addressDTO = this.mockAddressDTO();
+        String parsedAddressDTO = this.objectMapper.writeValueAsString(addressDTO.get());
+        when(addressService.update(addressId, addressDTO.get())).thenReturn(addressDTO);
+
+        this.mockMvc.perform(put("/address/" + addressId).content(parsedAddressDTO).header("content-type", "application/json"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(parsedAddressDTO));
+    }
+
+    @Test
+    public void testUpdateAddressThrowError() throws Exception {
+        Long addressId = 1234L;
+
+        Optional<AddressDTO> addressDTO = this.mockAddressDTO();
+        String parsedAddressDTO = this.objectMapper.writeValueAsString(addressDTO.get());
+        when(addressService.update(addressId, addressDTO.get())).thenThrow(RuntimeException.class);
+
+        this.mockMvc.perform(put("/address/" + addressId).content(parsedAddressDTO).header("content-type", "application/json"))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    public void testUpdateAddressThrowInvalidZipCodeException() throws Exception {
+        Long addressId = 1234L;
+
+        Optional<AddressDTO> addressDTO = this.mockAddressDTO();
+        String parsedAddressDTO = this.objectMapper.writeValueAsString(addressDTO.get());
+        when(addressService.update(addressId, addressDTO.get())).thenThrow(InvalidZipCodeException.class);
+
+        this.mockMvc.perform(put("/address/" + addressId).content(parsedAddressDTO).header("content-type", "application/json"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testUpdateAddressThrowAddressNotException() throws Exception {
+        Long addressId = 1234L;
+
+        Optional<AddressDTO> addressDTO = this.mockAddressDTO();
+        String parsedAddressDTO = this.objectMapper.writeValueAsString(addressDTO.get());
+        when(addressService.update(addressId, addressDTO.get())).thenThrow(AddressNotFoundException.class);
+
+        this.mockMvc.perform(put("/address/" + addressId).content(parsedAddressDTO).header("content-type", "application/json"))
                 .andExpect(status().isBadRequest());
     }
 }

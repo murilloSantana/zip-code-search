@@ -3,7 +3,5 @@ services:
   zip_code_search:
     build:
       context: .
-    volumes:
-      - .:/usr/app/
     ports:
       - 8080:8080

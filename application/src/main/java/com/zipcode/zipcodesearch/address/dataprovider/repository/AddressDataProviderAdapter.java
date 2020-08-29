@@ -1,7 +1,7 @@
 package com.zipcode.zipcodesearch.address.dataprovider.repository;
 
 import com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter.AddressDataProvider;
-import com.zipcode.zipcodesearch.address.dataprovider.model.AddressEntity;
+import com.zipcode.zipcodesearch.address.dataprovider.model.AddressData;
 import com.zipcode.zipcodesearch.entity.Address;
 import com.zipcode.zipcodesearch.address.service.AddressConverter;
 import org.springframework.stereotype.Service;
@@ -27,6 +27,11 @@ public class AddressDataProviderAdapter implements AddressDataProvider {
     }
 
     @Override
+    public Optional<Address> findById(Long id) {
+        return Optional.empty();
+    }
+
+    @Override
     public Optional<Address> findByZipCode(String zipCode) {
         return this.addressRepository.findByZipCode(zipCode)
                 .map((addressEntity) -> this.addressConverter.addressEntityToAddress(addressEntity))
@@ -35,8 +40,8 @@ public class AddressDataProviderAdapter implements AddressDataProvider {
 
     @Override
     public Optional<Address> saveAddress(Address address) {
-        AddressEntity addressEntity = this.addressRepository.save(this.addressConverter.addressToAddressEntity(address));
-        return this.addressConverter.addressEntityToAddress(addressEntity);
+        AddressData addressData = this.addressRepository.save(this.addressConverter.addressToAddressEntity(address));
+        return this.addressConverter.addressEntityToAddress(addressData);
     }
 
 }

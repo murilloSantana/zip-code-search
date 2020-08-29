@@ -1,7 +1,7 @@
 package com.zipcode.zipcodesearch.address.service;
 
 import com.zipcode.zipcodesearch.address.controller.dto.AddressDTO;
-import com.zipcode.zipcodesearch.address.dataprovider.model.AddressEntity;
+import com.zipcode.zipcodesearch.address.dataprovider.model.AddressData;
 import com.zipcode.zipcodesearch.entity.Address;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.stereotype.Service;
@@ -34,16 +34,16 @@ public class AddressConverter {
         return Optional.ofNullable(orikaMapperFacade.map(address, AddressDTO.class));
     }
 
-    public AddressEntity addressToAddressEntity(Address address) {
-        return orikaMapperFacade.map(address, AddressEntity.class);
+    public AddressData addressToAddressEntity(Address address) {
+        return orikaMapperFacade.map(address, AddressData.class);
     }
 
-    public Optional<Address> addressEntityToAddress(AddressEntity addressEntity) {
-        return Optional.ofNullable(orikaMapperFacade.map(addressEntity, Address.class));
+    public Optional<Address> addressEntityToAddress(AddressData addressData) {
+        return Optional.ofNullable(orikaMapperFacade.map(addressData, Address.class));
     }
 
-    public List<Address> addressEntityToAddress(List<AddressEntity> addressEntityList) {
-        return orikaMapperFacade.mapAsList(addressEntityList, Address.class);
+    public List<Address> addressEntityToAddress(List<AddressData> addressDataList) {
+        return orikaMapperFacade.mapAsList(addressDataList, Address.class);
     }
 
 }

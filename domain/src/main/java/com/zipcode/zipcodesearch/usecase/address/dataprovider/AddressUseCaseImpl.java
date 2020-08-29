@@ -1,6 +1,7 @@
 package com.zipcode.zipcodesearch.usecase.address.dataprovider;
 
 import com.zipcode.zipcodesearch.entity.Address;
+import com.zipcode.zipcodesearch.entity.AddressNotFoundException;
 import com.zipcode.zipcodesearch.entity.InvalidZipCodeException;
 import com.zipcode.zipcodesearch.usecase.address.chain.AddressSearchChain;
 import com.zipcode.zipcodesearch.usecase.address.chain.InvalidZipCodeHandler;
@@ -53,8 +54,12 @@ public class AddressUseCaseImpl implements AddressUseCase {
     }
 
     @Override
-    public Optional<Address> update(Address address) {
-        return Optional.empty();
+    public Optional<Address> update(Long addressId, Address address) {
+        Optional<Address> addressRetrieved = this.addressDataProvider.findById(addressId);
+
+        if(!addressRetrieved.isPresent()) throw new AddressNotFoundException("Endereço não encontrado");
+
+        return this.save(address);
     }
 
     @Override

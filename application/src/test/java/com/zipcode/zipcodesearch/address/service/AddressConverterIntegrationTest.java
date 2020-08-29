@@ -2,7 +2,7 @@ package com.zipcode.zipcodesearch.address.service;
 
 
 import com.zipcode.zipcodesearch.address.controller.dto.AddressDTO;
-import com.zipcode.zipcodesearch.address.dataprovider.model.AddressEntity;
+import com.zipcode.zipcodesearch.address.dataprovider.model.AddressData;
 import com.zipcode.zipcodesearch.entity.Address;
 import ma.glasnost.orika.MapperFacade;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,8 +29,8 @@ public class AddressConverterIntegrationTest {
         this.addressConverter = new AddressConverter(this.orikaMapperFacade);
     }
 
-    public AddressEntity mockAddressEntity() {
-        return new AddressEntity("Rio de Janeiro", "Rio de Janeiro",
+    public AddressData mockAddressEntity() {
+        return new AddressData("Rio de Janeiro", "Rio de Janeiro",
                 "Flamengo", "Rua Marques de Abrantes", "22230060");
     }
 
@@ -82,26 +82,26 @@ public class AddressConverterIntegrationTest {
     @Test
     public void testConvertAddressToAddressEntity() {
         Address address = this.mockAddress();
-        AddressEntity addressEntityExpected = this.mockAddressEntity();
-        AddressEntity addressActual = this.addressConverter.addressToAddressEntity(address);
+        AddressData addressDataExpected = this.mockAddressEntity();
+        AddressData addressActual = this.addressConverter.addressToAddressEntity(address);
 
-        assertEquals(addressEntityExpected, addressActual);
+        assertEquals(addressDataExpected, addressActual);
     }
 
     @Test
     public void testConvertAddressEntityToAddress() {
-        AddressEntity addressEntity = this.mockAddressEntity();
+        AddressData addressData = this.mockAddressEntity();
         Address addressExpected = this.mockAddress();
-        Optional<Address> addressActual = this.addressConverter.addressEntityToAddress(addressEntity);
+        Optional<Address> addressActual = this.addressConverter.addressEntityToAddress(addressData);
 
         assertEquals(addressExpected, addressActual.get());
     }
 
     @Test
     public void testConvertAddressEntityListToAddressList() {
-        List<AddressEntity> addressEntityList = Arrays.asList(this.mockAddressEntity(), this.mockAddressEntity());
+        List<AddressData> addressDataList = Arrays.asList(this.mockAddressEntity(), this.mockAddressEntity());
         List<Address> addressListExpected = Arrays.asList(this.mockAddress(), this.mockAddress());
-        List<Address> addressListActual = this.addressConverter.addressEntityToAddress(addressEntityList);
+        List<Address> addressListActual = this.addressConverter.addressEntityToAddress(addressDataList);
 
         assertEquals(addressListExpected, addressListActual);
     }

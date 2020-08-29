@@ -10,6 +10,6 @@ public interface AddressUseCase {
     List<Address> listAll();
     Optional<Address> findByZipCode(String zipCode);
     Optional<Address> save(Address address);
-    Optional<Address> update(Address address);
+    Optional<Address> update(Long addressId, Address address);
     void delete(Address address);
 }

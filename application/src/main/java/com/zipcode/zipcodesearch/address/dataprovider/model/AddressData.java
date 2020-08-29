@@ -7,8 +7,7 @@ import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity
-
-public class AddressEntity {
+public class AddressData {
 
     @Id
     @GeneratedValue
@@ -20,9 +19,9 @@ public class AddressEntity {
     @Column(name = "zip_code", unique = true)
     private String zipCode;
 
-    public AddressEntity() {}
+    public AddressData() {}
 
-    public AddressEntity(String state, String city, String district, String street, String zipCode) {
+    public AddressData(String state, String city, String district, String street, String zipCode) {
         this.state = state;
         this.city = city;
         this.district = district;
@@ -78,7 +77,7 @@ public class AddressEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AddressEntity that = (AddressEntity) o;
+        AddressData that = (AddressData) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(state, that.state) &&
                 Objects.equals(city, that.city) &&
