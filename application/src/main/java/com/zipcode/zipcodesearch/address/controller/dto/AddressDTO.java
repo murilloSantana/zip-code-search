@@ -6,14 +6,26 @@ import java.util.Objects;
 
 public class AddressDTO {
 
+    @NotNull
+    @NotEmpty
     private String state;
+    @NotNull
+    @NotEmpty
     private String city;
+    @NotNull
+    @NotEmpty
     private String district;
+    @NotNull
+    @NotEmpty
     private String street;
+    @NotNull
+    @NotEmpty
     private String zipCode;
 
-    public AddressDTO(@NotNull @NotEmpty String state, @NotNull @NotEmpty String city,
-                      @NotNull @NotEmpty String district, @NotNull @NotEmpty String street, @NotNull @NotEmpty String zipCode) {
+    public AddressDTO() {}
+
+    public AddressDTO(String state, String city,
+                      String district, String street, String zipCode) {
         this.state = state;
         this.city = city;
         this.district = district;

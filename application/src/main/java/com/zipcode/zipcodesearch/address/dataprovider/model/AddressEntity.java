@@ -20,6 +20,8 @@ public class AddressEntity {
     @Column(name = "zip_code", unique = true)
     private String zipCode;
 
+    public AddressEntity() {}
+
     public AddressEntity(String state, String city, String district, String street, String zipCode) {
         this.state = state;
         this.city = city;
