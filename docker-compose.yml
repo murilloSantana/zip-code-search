@@ -1,7 +1,9 @@
-version: '3.3'
+version: '3'
 services:
   zip_code_search:
     build:
       context: .
+    volumes:
+      - .:/usr/app/
     ports:
       - 8080:8080
