@@ -2,7 +2,7 @@ package com.zipcode.zipcodesearch.address.service;
 
 import com.zipcode.zipcodesearch.Application;
 import com.zipcode.zipcodesearch.address.controller.dto.AddressDTO;
-import com.zipcode.zipcodesearch.model.Address;
+import com.zipcode.zipcodesearch.entity.Address;
 import com.zipcode.zipcodesearch.usecase.address.dataprovider.AddressUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

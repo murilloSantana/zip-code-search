@@ -1,7 +1,7 @@
 package com.zipcode.zipcodesearch.address.service;
 
 import com.zipcode.zipcodesearch.address.controller.dto.AddressDTO;
-import com.zipcode.zipcodesearch.model.Address;
+import com.zipcode.zipcodesearch.entity.Address;
 import com.zipcode.zipcodesearch.usecase.address.dataprovider.AddressUseCase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;

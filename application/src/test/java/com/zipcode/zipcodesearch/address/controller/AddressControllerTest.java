@@ -3,7 +3,7 @@ package com.zipcode.zipcodesearch.address.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zipcode.zipcodesearch.address.controller.dto.AddressDTO;
 import com.zipcode.zipcodesearch.address.service.AddressService;
-import com.zipcode.zipcodesearch.model.InvalidZipCodeException;
+import com.zipcode.zipcodesearch.entity.InvalidZipCodeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

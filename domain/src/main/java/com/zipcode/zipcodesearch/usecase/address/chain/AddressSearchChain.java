@@ -1,7 +1,7 @@
 package com.zipcode.zipcodesearch.usecase.address.chain;
 
 
-import com.zipcode.zipcodesearch.model.Address;
+import com.zipcode.zipcodesearch.entity.Address;
 
 import java.util.Optional;
 

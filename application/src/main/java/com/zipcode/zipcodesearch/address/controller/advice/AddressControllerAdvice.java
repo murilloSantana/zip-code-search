@@ -1,6 +1,6 @@
 package com.zipcode.zipcodesearch.address.controller.advice;
 
-import com.zipcode.zipcodesearch.model.InvalidZipCodeException;
+import com.zipcode.zipcodesearch.entity.InvalidZipCodeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,6 +1,6 @@
 package com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter;
 
-import com.zipcode.zipcodesearch.model.Address;
+import com.zipcode.zipcodesearch.entity.Address;
 
 import java.util.List;
 import java.util.Optional;

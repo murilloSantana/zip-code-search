@@ -1,11 +1,10 @@
 package com.zipcode.zipcodesearch.address.dataprovider.repository;
 
 import com.zipcode.zipcodesearch.address.dataprovider.model.AddressEntity;
-import com.zipcode.zipcodesearch.model.Address;
+import com.zipcode.zipcodesearch.entity.Address;
 import com.zipcode.zipcodesearch.address.service.AddressConverter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;

@@ -1,6 +1,6 @@
 package com.zipcode.zipcodesearch.usecase.address.chain;
 
-import com.zipcode.zipcodesearch.model.Address;
+import com.zipcode.zipcodesearch.entity.Address;
 import com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter.AddressDataProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

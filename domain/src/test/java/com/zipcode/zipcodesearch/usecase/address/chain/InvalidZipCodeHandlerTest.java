@@ -1,7 +1,7 @@
 package com.zipcode.zipcodesearch.usecase.address.chain;
 
-import com.zipcode.zipcodesearch.model.Address;
-import com.zipcode.zipcodesearch.model.InvalidZipCodeException;
+import com.zipcode.zipcodesearch.entity.Address;
+import com.zipcode.zipcodesearch.entity.InvalidZipCodeException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

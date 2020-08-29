@@ -1,8 +1,8 @@
 package com.zipcode.zipcodesearch.usecase.address.chain;
 
 
-import com.zipcode.zipcodesearch.model.Address;
-import com.zipcode.zipcodesearch.model.InvalidZipCodeException;
+import com.zipcode.zipcodesearch.entity.Address;
+import com.zipcode.zipcodesearch.entity.InvalidZipCodeException;
 import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeNumberValidator;
 import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeSizeValidator;
 import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeValidator;

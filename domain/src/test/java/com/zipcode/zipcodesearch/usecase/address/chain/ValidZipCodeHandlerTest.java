@@ -1,6 +1,6 @@
 package com.zipcode.zipcodesearch.usecase.address.chain;
 
-import com.zipcode.zipcodesearch.model.Address;
+import com.zipcode.zipcodesearch.entity.Address;
 import com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter.AddressDataProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

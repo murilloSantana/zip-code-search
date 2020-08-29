@@ -2,7 +2,7 @@ package com.zipcode.zipcodesearch.address.dataprovider.repository;
 
 import com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter.AddressDataProvider;
 import com.zipcode.zipcodesearch.address.dataprovider.model.AddressEntity;
-import com.zipcode.zipcodesearch.model.Address;
+import com.zipcode.zipcodesearch.entity.Address;
 import com.zipcode.zipcodesearch.address.service.AddressConverter;
 import org.springframework.stereotype.Service;
 

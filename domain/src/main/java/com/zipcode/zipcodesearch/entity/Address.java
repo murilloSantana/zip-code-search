@@ -1,4 +1,4 @@
-package com.zipcode.zipcodesearch.model;
+package com.zipcode.zipcodesearch.entity;
 
 import java.util.Objects;
 
