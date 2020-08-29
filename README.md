@@ -42,3 +42,6 @@ Os logs estão estruturados em formato json e salvos em dois arquivos um para lo
     {"@timestamp":"2020-08-28T03:54:17.819-03:00","@version":"1","message":"Address Created wit success: ADDRESS AddressDTO(zipCode=23456781, street=Rua David de Oliveira, district=PQ. Lafaiete, city=Duque de Caxias, state=Rio de Janeiro)","logger_name":"com.zipcode.zipcodesearch.address.controller.AddressController","thread_name":"http-nio-8080-exec-2","level":"INFO","level_value":20000}
 	
 ### Swagger (atualizar e mapear spring actuator, listar na doc os endpoint disponiveis)
+
+### Requisições HTTP
+![Fluxo de requisições HTTP](img/HTTP%20Request%20Flow.png "Fluxo de requisições HTTP")
