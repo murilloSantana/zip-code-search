@@ -25,7 +25,9 @@ Zip Code Search é um projeto para busca de CEP. O principal intuito do projeto 
 	
 ### Arquitetura
 <p>A arquitetura da aplicação foi planejada e desenvolvida com base em alguns conceitos de arquitetura limpa, especialmente os princípios de SOLID. O projeto consiste em dois módulos, um deles com as regras de negócio e outro com detalhes (controlador, repositório para de dados, serviço), os módulos foram criados com o Maven, além disso foi usado o Jigsaw no módulo das regras de negócio, com o intuito de garantir um alto nível de encapsulamento, garantindo que vão ser expostos apenas os pacotes estritamente necessários.</p>
-	[application] controller -> [application] service -> [domain] useCase -> [application] adapter -> [application] repository
+	
+![Diagrama da arquitetura](img/architecture.jpeg "Arquitetura")
+
 <p>Como é possivel visualizar na imagem acima, o módulo domínio está bem encapsulado e toda a comunicação com ele é feita através de abstrações. As dependências foram invertidas. Abstrações tendem a variar menos, fazendo com que o domínio esteja menos suscetível a quebrar ou variar por causa de mudanças nos detalhes. A inversão de dependências nesse cenário trouxe alguns benefícios comprovados durante o processo de desenvolvimento, foi possível desenvolver e focar nas regras de negócio sem se preocupar com os detalhes, por exemplo, inicialmente o comportamento dos repositórios foram simulados através de Maps e o processo de desenvolvimento de testes foi facilitado por conta do alto nível de desacoplamento.</p>
 
 ### Domínio
