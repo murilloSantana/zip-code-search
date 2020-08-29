@@ -1,6 +1,6 @@
 # zip-code-search
 
-### Summary
+### Sumário
 - [Introdução](#introdução)
 - [Como rodar o projeto?](#como-rodar-o-projeto)
 - [Por que Java?](#por-que-java)
