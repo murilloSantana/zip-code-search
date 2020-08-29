@@ -9,15 +9,17 @@ import com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter.AddressDat
 import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeNumberValidator;
 import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeSizeValidator;
 import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeValidator;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 public class AddressUseCaseImpl implements AddressUseCase {
 
     private final AddressDataProvider addressDataProvider;
+
+    private static final Logger log = LoggerFactory.getLogger(AddressUseCaseImpl.class);
 
     public AddressUseCaseImpl(AddressDataProvider addressDataProvider) {
         this.addressDataProvider = addressDataProvider;

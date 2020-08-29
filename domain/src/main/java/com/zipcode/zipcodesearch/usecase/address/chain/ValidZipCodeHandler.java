@@ -1,13 +1,15 @@
 package com.zipcode.zipcodesearch.usecase.address.chain;
 
-import com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter.AddressDataProvider;
 import com.zipcode.zipcodesearch.model.Address;
-import lombok.extern.slf4j.Slf4j;
+import com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter.AddressDataProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
-@Slf4j
 public class ValidZipCodeHandler implements AddressSearchChain {
+
+    private static final Logger log = LoggerFactory.getLogger(ValidZipCodeHandler.class);
 
     private AddressSearchChain addressSearchChain;
     private final AddressDataProvider addressDataProvider;

@@ -6,14 +6,16 @@ import com.zipcode.zipcodesearch.model.InvalidZipCodeException;
 import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeNumberValidator;
 import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeSizeValidator;
 import com.zipcode.zipcodesearch.usecase.address.validator.ZipCodeValidator;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
-@Slf4j
 public class InvalidZipCodeHandler implements AddressSearchChain {
 
     private AddressSearchChain addressSearchChain;
+
+    private static final Logger log = LoggerFactory.getLogger(InvalidZipCodeHandler.class);
 
     @Override
     public void setNextHandler(AddressSearchChain nextHandler) {

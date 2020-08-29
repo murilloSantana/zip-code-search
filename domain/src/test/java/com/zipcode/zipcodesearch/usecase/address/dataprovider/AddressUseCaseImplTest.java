@@ -32,6 +32,7 @@ public class AddressUseCaseImplTest {
     @Mock
     private AddressSearchChain addressSearchChain;
 
+
     @Test
     public void testSearchInvalidZipCode() {
         assertThrows(InvalidZipCodeException.class, () -> {
@@ -39,15 +40,14 @@ public class AddressUseCaseImplTest {
         });
     }
 
-    public Optional<Address> mockAddress() {
-        return Optional.ofNullable(Address
-                .builder()
-                .state("Rio de Janeiro")
-                .city("Rio de Janeiro")
-                .district("Flamengo")
-                .street("Rua Marques de Abrantes")
-                .zipCode("22230060")
-                .build());
+    private Optional<Address> mockAddress() {
+        return Optional.ofNullable(new Address("Rio de Janeiro",
+                "Rio de Janeiro", "Flamengo", "Rua Marques de Abrantes", "22230060"));
+    }
+
+    private Address mockAddress(String zipCode) {
+        return new Address("Rio de Janeiro",
+                "Rio de Janeiro", "Flamengo", "Rua Marques de Abrantes", zipCode);
     }
 
     @Test
@@ -55,17 +55,9 @@ public class AddressUseCaseImplTest {
         String zipCode = "22230061";
         String zipCodeExpected = "22230060";
 
-        Address addressExpected = Address
-                .builder()
-                .zipCode(zipCodeExpected)
-                .district("Duque de Caxias")
-                .build();
+        Address addressExpected = this.mockAddress(zipCodeExpected);
 
-        Address addressMock = Address
-                .builder()
-                .zipCode(zipCodeExpected)
-                .district("Duque de Caxias")
-                .build();
+        Address addressMock = this.mockAddress(zipCodeExpected);
 
         when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 
@@ -82,17 +74,9 @@ public class AddressUseCaseImplTest {
         String zipCode = "22230060";
         String zipCodeExpected = "22230060";
 
-        Address addressExpected = Address
-                .builder()
-                .zipCode(zipCodeExpected)
-                .district("Duque de Caxias")
-                .build();
+        Address addressExpected = this.mockAddress(zipCodeExpected);
 
-        Address addressMock = Address
-                .builder()
-                .zipCode(zipCodeExpected)
-                .district("Duque de Caxias")
-                .build();
+        Address addressMock = this.mockAddress(zipCodeExpected);
 
         when(addressDataProvider.findByZipCode(zipCodeExpected)).thenReturn(Optional.ofNullable(addressMock));
 

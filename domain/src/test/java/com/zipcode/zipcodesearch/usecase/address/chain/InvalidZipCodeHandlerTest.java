@@ -49,14 +49,8 @@ public class InvalidZipCodeHandlerTest {
     public void testValidZipCodeWithNextHandler() {
         String zipCode = "22230060";
 
-        Address addressExpected = Address
-                .builder()
-                .state("Rio de Janeiro")
-                .city("Rio de Janeiro")
-                .district("Flamengo")
-                .street("Rua Marques de Abrantes")
-                .zipCode("22230060")
-                .build();
+        Address addressExpected = new Address("Rio de Janeiro",
+                "Rio de Janeiro", "Flamengo", "Rua Marques de Abrantes", "22230060");
 
         when(addressSearchChain.check(zipCode)).thenReturn(Optional.ofNullable(addressExpected));
 
@@ -69,14 +63,8 @@ public class InvalidZipCodeHandlerTest {
     public void testValidZipCodeWithRealNextHandler() {
         String zipCode = "22230060";
 
-        Address addressExpected = Address
-                .builder()
-                .state("Rio de Janeiro")
-                .city("Duque de Caxias")
-                .district("PQ. Lafaiete")
-                .street("Rua David de Oliveira")
-                .zipCode("25015210")
-                .build();
+        Address addressExpected = new Address("Rio de Janeiro",
+                "Duque de Caxias", "PQ. Lafaiete", "Rua David de Oliveira", "25015210");
 
         AddressSearchChain addressSearchChain = new AddressSearchChain() {
             @Override
