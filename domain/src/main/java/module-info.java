@@ -3,7 +3,6 @@ module com.zip.code.search.modules.domain {
     exports com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter;
     exports com.zipcode.zipcodesearch.entity;
 
-    requires static lombok;
     requires logstash.logback.encoder;
     requires org.slf4j;
 
