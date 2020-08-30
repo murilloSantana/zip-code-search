@@ -9,7 +9,7 @@
 - [Arquitetura](#arquitetura)
 - [Domínio](#domínio)
 - [Logs](#logs)
-- [Swagger](#swagger)
+- [Endpoints Disponíveis](#endpoints-disponiveis)
 - [Requisições HTTP](#requisições-http)
 
 ### Introdução
@@ -65,36 +65,49 @@ Os logs estão estruturados em formato json e salvos em dois arquivos: um para l
     {"@timestamp":"2020-08-28T03:54:17.819-03:00","@version":"1","message":"Address Created wit success: ADDRESS AddressDTO(zipCode=23456781, street=Rua David de Oliveira, district=PQ. Lafaiete, city=Duque de Caxias, state=Rio de Janeiro)","logger_name":"com.zipcode.zipcodesearch.address.controller.AddressController","thread_name":"http-nio-8080-exec-2","level":"INFO","level_value":20000}
 	
 ### Endpoints disponiveis 
-
 - Swagger da aplicação
     ```
     curl --location --request GET 'http://localhost:8080/api/documentation'
     ```
     
-- Busca por CEP
+- Busca endereço por CEP
     ```
     curl -X GET "http://localhost:8080/api/address/zipcode/22230060" -H "accept: application/json"
     ```
 
-- Salvar novo CEP
+- Salva novo endereço
     ```    
     curl -X POST "http://localhost:8080/api/address" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"state\": \"Rio de Janeiro\", \"city\": \"Rio de Janeiro\", \"district\": \"Flamengo\", \"street\": \"Rua Marques de Abrantes\", \"zipCode\": \"22230061\"}"
     ```
 
-- Editar CEP existente
+- Edita endereço existente
     ```
     curl -X PUT "http://localhost:8080/api/address/3" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"state\": \"Rio de Janeiro\", \"city\": \"Duque de Caxias\", \"district\": \"PQ Lafaiete\", \"street\": \"Rua David de Oliveira\", \"zipCode\": \"22233461\"}"    
     ```
 
-- Remover CEP
+- Remove endereço
     ```
     curl -X DELETE "http://localhost:8080/api/address/1" -H "accept: */*"
     ```
   
-- Listar todos CEPs
+- Lista todos endereços
     ```
     curl -X GET "http://localhost:8080/api/address" -H "accept: application/json"
     ```
-
+  
+- Health check da aplicação
+    ```
+    curl -X GET "http://localhost:8080/api/analytics/healthCheck" -H "accept: */*"
+    ```
+  
+- Lista todas as métricas suportadas
+    ```
+    curl -X GET "http://localhost:8080/api/analytics/metric" -H "accept: */*"
+    ```
+  
+- Busca métricas por nome (recupere o nome da métrica que deseja visualizar em detalhes e realize buscas nesse endpoint)
+    ```
+    curl -X GET "http://localhost:8080/api/analytics/metric/jvm.threads.states" -H "accept: */*"
+    ```
 ### Requisições HTTP
 ![Fluxo de requisições HTTP](doc/HTTP%20Request%20Flow.png "Fluxo de requisições HTTP")

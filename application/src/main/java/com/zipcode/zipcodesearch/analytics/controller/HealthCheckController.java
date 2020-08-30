@@ -10,7 +10,7 @@ public class HealthCheckController {
 
     @RequestMapping(path = "/healthCheck", method = RequestMethod.GET)
     public String health() {
-        return "foward:/actuator/health";
+        return "forward:/actuator/health";
     }
 
 }
