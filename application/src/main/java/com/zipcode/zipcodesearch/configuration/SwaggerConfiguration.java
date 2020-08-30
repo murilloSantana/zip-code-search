@@ -24,12 +24,24 @@ public class SwaggerConfiguration {
     @Value("${project.version}")
     private String projectVersion;
 
+    @Value("${swagger.document.api.info.title}")
+    private String apiInfoTitle;
+
+    @Value("${swagger.document.api.info.description}")
+    private String apiInfoDescription;
+
+    @Value("${swagger.document.api.info.license}")
+    private String apiInfoLicense;
+
+    @Value("${swagger.document.api.info.license.url}")
+    private String apiInfoLicenseUrl;
+
     @Bean
     public Docket api() {
-        ApiInfo apiInfo = new ApiInfo("Zip Code Search Documentation",
-                "https://github.com/murilloSantana/zip-code-search",
+        ApiInfo apiInfo = new ApiInfo(apiInfoTitle,
+                apiInfoDescription,
                 projectVersion, null,
-                null, "MIT", "https://opensource.org/licenses/MIT",
+                null, apiInfoLicense, apiInfoLicenseUrl,
                 new ArrayList<VendorExtension>());
 
         return new Docket(DocumentationType.SWAGGER_2)
