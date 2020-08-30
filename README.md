@@ -106,7 +106,7 @@ Os logs estão estruturados em formato json e salvos em dois arquivos: um para l
     curl -X GET "http://localhost:8080/api/analytics/metric" -H "accept: */*"
     ```
   
-- Busca métricas por nome (recupere o nome da métrica que deseja visualizar em detalhes e realize buscas nesse endpoint)
+- Busca métricas por nome (utilize o endpoint de listagem de métricas para recuperar o nome da métrica desejada e realize a busca neste endpoint)
     ```
     curl -X GET "http://localhost:8080/api/analytics/metric/[METRIC_NAME]" -H "accept: */*"
     ```
