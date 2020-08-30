@@ -23,7 +23,7 @@ public class AddressDataProviderAdapter implements AddressDataProvider {
 
     @Override
     public List<Address> listAll() {
-        return this.addressConverter.addressEntityToAddress(this.addressRepository.findAll());
+        return this.addressConverter.addressDataToAddress(this.addressRepository.findAll());
     }
 
     @Override
@@ -34,14 +34,14 @@ public class AddressDataProviderAdapter implements AddressDataProvider {
     @Override
     public Optional<Address> findByZipCode(String zipCode) {
         return this.addressRepository.findByZipCode(zipCode)
-                .map((addressData) -> this.addressConverter.addressEntityToAddress(addressData))
+                .map((addressData) -> this.addressConverter.addressDataToAddress(addressData))
                 .orElse(Optional.empty());
     }
 
     @Override
     public Optional<Address> save(Address address) {
-        AddressData addressData = this.addressRepository.save(this.addressConverter.addressToAddressEntity(address));
-        return this.addressConverter.addressEntityToAddress(addressData);
+        AddressData addressData = this.addressRepository.save(this.addressConverter.addressToAddressData(address));
+        return this.addressConverter.addressDataToAddress(addressData);
     }
 
 }

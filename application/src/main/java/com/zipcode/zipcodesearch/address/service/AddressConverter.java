@@ -34,15 +34,15 @@ public class AddressConverter {
         return Optional.ofNullable(orikaMapperFacade.map(address, AddressDTO.class));
     }
 
-    public AddressData addressToAddressEntity(Address address) {
+    public AddressData addressToAddressData(Address address) {
         return orikaMapperFacade.map(address, AddressData.class);
     }
 
-    public Optional<Address> addressEntityToAddress(AddressData addressData) {
+    public Optional<Address> addressDataToAddress(AddressData addressData) {
         return Optional.ofNullable(orikaMapperFacade.map(addressData, Address.class));
     }
 
-    public List<Address> addressEntityToAddress(Iterable<AddressData> addressDataList) {
+    public List<Address> addressDataToAddress(Iterable<AddressData> addressDataList) {
         return orikaMapperFacade.mapAsList(addressDataList, Address.class);
     }
 

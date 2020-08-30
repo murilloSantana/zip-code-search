@@ -91,7 +91,7 @@ public class AddressServiceImplTest {
         Optional<AddressDTO> addressDTOActual = this.addressService.findByZipCode(zipCode);
 
         verify(this.addressUseCase, times(1)).findByZipCode(zipCode);
-        verify(this.addressConverter, times(0)).addressEntityToAddress(any(AddressData.class));
+        verify(this.addressConverter, times(0)).addressDataToAddress(any(AddressData.class));
 
         assertEquals(Optional.empty(), addressDTOActual);
     }
