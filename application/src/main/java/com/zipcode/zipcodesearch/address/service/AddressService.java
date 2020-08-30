@@ -10,5 +10,5 @@ public interface AddressService {
     Optional<AddressDTO> findByZipCode(String zipCode);
     Optional<AddressDTO> save(AddressDTO addressDTO);
     Optional<AddressDTO> update(Long addressId, AddressDTO addressDTO);
-    void delete(AddressDTO addressDTO);
+    void delete(Long id);
 }

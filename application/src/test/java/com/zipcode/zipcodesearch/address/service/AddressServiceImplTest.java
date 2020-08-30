@@ -191,4 +191,32 @@ public class AddressServiceImplTest {
         verify(this.addressUseCase, times(1)).update(anyLong(), any());
         verify(this.addressConverter, times(0)).addressToAddressDTO(any(Optional.class));
     }
+
+    @Test
+    public void testDeleteAddress() {
+        Long addressId = 2345678L;
+
+        Optional<Address> address = this.mockAddress();
+        when(this.addressUseCase.findById(addressId)).thenReturn(address);
+
+        this.addressService.delete(addressId);
+
+        verify(this.addressUseCase, times(1)).findById(addressId);
+        verify(this.addressUseCase, times(1)).delete(addressId);
+    }
+
+    @Test
+    public void testDeleteAddressNotFoundException() {
+        Long addressId = 2345678L;
+
+        when(this.addressUseCase.findById(addressId)).thenThrow(AddressNotFoundException.class);
+
+        assertThrows(AddressNotFoundException.class, () -> {
+            this.addressService.delete(addressId);
+        });
+
+        verify(this.addressUseCase, times(1)).findById(addressId);
+        verify(this.addressUseCase, times(0)).delete(addressId);
+
+    }
 }

@@ -11,5 +11,6 @@ public interface AddressUseCase {
     Optional<Address> findByZipCode(String zipCode);
     Optional<Address> save(Address address);
     Optional<Address> update(Long addressId, Address address);
-    void delete(Address address);
+    void delete(Long addressId);
+    Optional<Address> findById(Long addressId);
 }

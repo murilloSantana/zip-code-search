@@ -63,7 +63,12 @@ public class AddressUseCaseImpl implements AddressUseCase {
     }
 
     @Override
-    public void delete(Address address) {
+    public void delete(Long addressId) {
 
+    }
+
+    @Override
+    public Optional<Address> findById(Long id) {
+        return Optional.empty();
     }
 }

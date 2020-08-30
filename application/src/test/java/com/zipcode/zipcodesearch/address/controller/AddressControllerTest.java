@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -187,7 +187,7 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void testUpdateAddressThrowAddressNotException() throws Exception {
+    public void testUpdateAddressThrowAddressNotFoundException() throws Exception {
         Long addressId = 1234L;
 
         Optional<AddressDTO> addressDTO = this.mockAddressDTO();
@@ -196,5 +196,52 @@ public class AddressControllerTest {
 
         this.mockMvc.perform(put("/address/" + addressId).content(parsedAddressDTO).header("content-type", "application/json"))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testDeleteAddress() throws Exception {
+        Long addressId = 1234L;
+
+        this.mockMvc.perform(delete("/address/" + addressId))
+                .andExpect(status().isOk());
+
+        verify(this.addressService, times(1)).delete(addressId);
+    }
+
+    @Test
+    public void testDeleteAddressThrowError() throws Exception {
+        Long addressId = 1234L;
+
+        doThrow(RuntimeException.class).when(this.addressService).delete(addressId);
+
+        this.mockMvc.perform(delete("/address/" + addressId))
+                .andExpect(status().isInternalServerError());
+
+        verify(this.addressService, times(1)).delete(addressId);
+
+    }
+
+    @Test
+    public void testDeleteAddressThrowInvalidZipCodeException() throws Exception {
+        Long addressId = 1234L;
+
+        doThrow(InvalidZipCodeException.class).when(this.addressService).delete(addressId);
+
+        this.mockMvc.perform(delete("/address/" + addressId))
+                .andExpect(status().isBadRequest());
+
+        verify(this.addressService, times(1)).delete(addressId);
+    }
+
+    @Test
+    public void testDeleteAddressThrowAddressNotFoundException() throws Exception {
+        Long addressId = 1234L;
+
+        doThrow(AddressNotFoundException.class).when(this.addressService).delete(addressId);
+
+        this.mockMvc.perform(delete("/address/" + addressId))
+                .andExpect(status().isBadRequest());
+
+        verify(this.addressService, times(1)).delete(addressId);
     }
 }

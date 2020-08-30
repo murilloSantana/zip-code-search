@@ -18,7 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = Application.class)
@@ -93,4 +93,31 @@ public class AddressServiceImplIntegrationTest {
         assertEquals(Optional.empty(), firstAddressDTOResponse);
         assertEquals(Optional.empty(), secondAddressDTOResponse);
     }
+
+    @Test
+    public void testDeleteAddress() {
+        String zipCode = "22230060";
+        Long addressId = 2345678L;
+
+        Optional<AddressDTO> addressDTOExpected = this.mockAddressDTO();
+        Optional<Address> address = this.mockAddress();
+
+        when(this.addressUseCase.findByZipCode(zipCode)).thenReturn(address);
+        when(this.addressConverter.addressToAddressDTO(address.get())).thenReturn(addressDTOExpected);
+
+        Optional<AddressDTO> addressDTOActual = this.addressService.findByZipCode(zipCode);
+
+        assertEquals(addressDTOExpected, addressDTOActual);
+        assertNotNull(cacheManager.getCache("addressByZipCode").get(zipCode));
+
+        when(this.addressUseCase.findById(addressId)).thenReturn(address);
+
+        this.addressService.delete(addressId);
+
+        verify(this.addressUseCase, times(1)).findById(addressId);
+        verify(this.addressUseCase, times(1)).delete(addressId);
+
+        assertNull(cacheManager.getCache("addressByZipCode").get(zipCode));
+    }
+
 }
