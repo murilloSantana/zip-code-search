@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
-import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.VendorExtension;
@@ -37,35 +37,39 @@ public class SwaggerConfiguration {
     private String apiInfoLicenseUrl;
 
     @Bean
-    public Docket api() {
-        ApiInfo apiInfo = new ApiInfo(apiInfoTitle,
-                apiInfoDescription,
-                projectVersion, null,
-                null, apiInfoLicense, apiInfoLicenseUrl,
-                new ArrayList<VendorExtension>());
-
+    public Docket address() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("Address")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.zipcode.zipcodesearch.address.controller"))
-                .paths(PathSelectors.any())
                 .build()
                 .pathMapping("/")
                 .useDefaultResponseMessages(false)
                 .genericModelSubstitutes(ResponseEntity.class)
-                .apiInfo(apiInfo)
+                .apiInfo(this.apiInfo())
                 .enableUrlTemplating(true);
     }
 
     @Bean
-    public UiConfiguration uiConfiguration() {
-        return UiConfigurationBuilder
-                .builder()
-                .deepLinking(true)
-                .defaultModelExpandDepth(2)
-                .defaultModelsExpandDepth(2)
-                .defaultModelRendering(ModelRendering.MODEL)
-                .displayRequestDuration(false)
-                .filter(false)
+    public Docket actuator() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("Metrics and Healthcheck")
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.zipcode.zipcodesearch.analytics.controller"))
+                .build()
+                .apiInfo(this.apiInfo())
+                .enableUrlTemplating(true);
+    }
+
+    @Bean
+    public ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title(apiInfoTitle)
+                .description(apiInfoDescription)
+                .version(projectVersion)
+                .license(apiInfoLicense)
+                .licenseUrl(apiInfoLicenseUrl)
                 .build();
     }
+
 }
