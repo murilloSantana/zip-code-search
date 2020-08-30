@@ -6,20 +6,20 @@ import java.util.Objects;
 
 public class AddressDTO {
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "State cannot be null")
+    @NotEmpty(message = "State cannot be empty")
     private String state;
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "City cannot be null")
+    @NotEmpty(message = "City cannot be empty")
     private String city;
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "District cannot be null")
+    @NotEmpty(message = "District cannot be empty")
     private String district;
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "Street cannot be null")
+    @NotEmpty(message = "Street cannot be empty")
     private String street;
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "Zip Code cannot be null")
+    @NotEmpty(message = "Zip Code cannot be empty")
     private String zipCode;
 
     public AddressDTO() {}
