@@ -42,7 +42,7 @@ public class AddressConverter {
         return Optional.ofNullable(orikaMapperFacade.map(addressData, Address.class));
     }
 
-    public List<Address> addressEntityToAddress(List<AddressData> addressDataList) {
+    public List<Address> addressEntityToAddress(Iterable<AddressData> addressDataList) {
         return orikaMapperFacade.mapAsList(addressDataList, Address.class);
     }
 

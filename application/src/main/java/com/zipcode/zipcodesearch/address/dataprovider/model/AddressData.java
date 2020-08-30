@@ -29,6 +29,14 @@ public class AddressData {
         this.zipCode = zipCode;
     }
 
+    public AddressData(Long id, String state, String city, String district, String street, String zipCode) {
+        this.id = id;
+        this.state = state;
+        this.city = city;
+        this.district = district;
+        this.street = street;
+        this.zipCode = zipCode;
+    }
     public Long getId() {
         return id;
     }

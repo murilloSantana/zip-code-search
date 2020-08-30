@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface AddressDataProvider {
     List<Address> listAll();
-    Optional<Address> findById(Long id);
+    boolean existsById(Long id);
     Optional<Address> findByZipCode(String zipCode);
     Optional<Address> save(Address address);
 }

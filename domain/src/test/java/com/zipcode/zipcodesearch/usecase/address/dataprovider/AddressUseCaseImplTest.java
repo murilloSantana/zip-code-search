@@ -5,7 +5,6 @@ import com.zipcode.zipcodesearch.entity.AddressNotFoundException;
 import com.zipcode.zipcodesearch.entity.InvalidZipCodeException;
 import com.zipcode.zipcodesearch.usecase.address.chain.AddressSearchChain;
 import com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter.AddressDataProvider;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,7 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -92,6 +90,20 @@ public class AddressUseCaseImplTest {
     }
 
     @Test
+    public void testSave() {
+        Optional<Address> addressExpected = this.mockAddress();
+        addressExpected.get().setZipCode("22230062");
+
+        when(addressDataProvider.save(addressExpected.get())).thenReturn(addressExpected);
+
+        Optional<Address> addressActual = this.addressUseCaseImpl.save(addressExpected.get());
+
+        verify(this.addressDataProvider, times(1)).save(any());
+
+        assertEquals(addressExpected, addressActual);
+    }
+
+    @Test
     public void testSaveWithInvalidZipCode() {
         Optional<Address> address = this.mockAddress();
         address.get().setZipCode("2223006c");
@@ -109,12 +121,12 @@ public class AddressUseCaseImplTest {
         Optional<Address> addressExpected = this.mockAddress();
         addressExpected.get().setZipCode("22230062");
 
-        when(addressDataProvider.findById(addressId)).thenReturn(addressExpected);
+        when(addressDataProvider.existsById(addressId)).thenReturn(true);
         when(addressDataProvider.save(addressExpected.get())).thenReturn(addressExpected);
 
         Optional<Address> addressActual = this.addressUseCaseImpl.update(addressId, addressExpected.get());
 
-        verify(this.addressDataProvider, times(1)).findById(anyLong());
+        verify(this.addressDataProvider, times(1)).existsById(anyLong());
         verify(this.addressDataProvider, times(1)).save(any());
 
         assertEquals(addressExpected, addressActual);
@@ -126,13 +138,13 @@ public class AddressUseCaseImplTest {
         Optional<Address> address = this.mockAddress();
         address.get().setZipCode("2223006c");
 
-        when(addressDataProvider.findById(addressId)).thenReturn(address);
+        when(addressDataProvider.existsById(addressId)).thenReturn(true);
 
         assertThrows(InvalidZipCodeException.class, () -> {
             this.addressUseCaseImpl.update(addressId, address.get());
         });
 
-        verify(this.addressDataProvider, times(1)).findById(anyLong());
+        verify(this.addressDataProvider, times(1)).existsById(anyLong());
         verify(this.addressDataProvider, times(0)).save(any());
     }
 
@@ -142,13 +154,13 @@ public class AddressUseCaseImplTest {
         Optional<Address> address = this.mockAddress();
         address.get().setZipCode("2223006c");
 
-        when(this.addressDataProvider.findById(addressId)).thenReturn(Optional.empty());
+        when(this.addressDataProvider.existsById(addressId)).thenReturn(false);
 
         assertThrows(AddressNotFoundException.class, () -> {
             this.addressUseCaseImpl.update(addressId, address.get());
         });
 
-        verify(this.addressDataProvider, times(1)).findById(anyLong());
+        verify(this.addressDataProvider, times(1)).existsById(anyLong());
         verify(this.addressDataProvider, times(0)).save(any());
     }
 

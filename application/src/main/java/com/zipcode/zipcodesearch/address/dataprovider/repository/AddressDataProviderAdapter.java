@@ -27,14 +27,14 @@ public class AddressDataProviderAdapter implements AddressDataProvider {
     }
 
     @Override
-    public Optional<Address> findById(Long id) {
-        return Optional.empty();
+    public boolean existsById(Long id) {
+        return this.addressRepository.existsById(id);
     }
 
     @Override
     public Optional<Address> findByZipCode(String zipCode) {
         return this.addressRepository.findByZipCode(zipCode)
-                .map((addressEntity) -> this.addressConverter.addressEntityToAddress(addressEntity))
+                .map((addressData) -> this.addressConverter.addressEntityToAddress(addressData))
                 .orElse(Optional.empty());
     }
 

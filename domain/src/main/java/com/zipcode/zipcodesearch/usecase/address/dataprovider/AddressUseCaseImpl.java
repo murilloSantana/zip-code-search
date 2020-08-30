@@ -55,9 +55,9 @@ public class AddressUseCaseImpl implements AddressUseCase {
 
     @Override
     public Optional<Address> update(Long addressId, Address address) {
-        Optional<Address> addressRetrieved = this.addressDataProvider.findById(addressId);
+        if(!this.addressDataProvider.existsById(addressId)) throw new AddressNotFoundException("Endereço não encontrado");
 
-        if(!addressRetrieved.isPresent()) throw new AddressNotFoundException("Endereço não encontrado");
+        address.setId(addressId);
 
         return this.save(address);
     }

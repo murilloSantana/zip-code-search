@@ -86,4 +86,5 @@ public class AddressDataProviderAdapterTest {
 
         assertEquals(address, addressActual);
     }
+
 }
