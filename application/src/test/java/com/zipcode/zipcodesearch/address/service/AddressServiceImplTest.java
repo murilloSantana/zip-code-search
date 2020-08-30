@@ -11,7 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 
 import java.util.Arrays;
@@ -35,8 +35,11 @@ public class AddressServiceImplTest {
     @Mock
     private AddressConverter addressConverter;
 
-    @Autowired
+    @Mock
     private CacheManager cacheManager;
+
+    @Mock
+    private Cache cache;
 
     public Optional<AddressDTO> mockAddressDTO() {
         return Optional.ofNullable(new AddressDTO("Rio de Janeiro",
@@ -197,12 +200,15 @@ public class AddressServiceImplTest {
         Long addressId = 2345678L;
 
         Optional<Address> address = this.mockAddress();
+
+        when(this.cacheManager.getCache(any())).thenReturn(cache);
         when(this.addressUseCase.findById(addressId)).thenReturn(address);
 
         this.addressService.delete(addressId);
 
         verify(this.addressUseCase, times(1)).findById(addressId);
         verify(this.addressUseCase, times(1)).delete(addressId);
+        verify(this.cacheManager, times(1)).getCache(any());
     }
 
     @Test

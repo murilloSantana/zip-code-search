@@ -64,11 +64,11 @@ public class AddressUseCaseImpl implements AddressUseCase {
 
     @Override
     public void delete(Long addressId) {
-
+        this.addressDataProvider.delete(addressId);
     }
 
     @Override
-    public Optional<Address> findById(Long id) {
-        return Optional.empty();
+    public Optional<Address> findById(Long addressId) {
+        return this.addressDataProvider.findById(addressId);
     }
 }

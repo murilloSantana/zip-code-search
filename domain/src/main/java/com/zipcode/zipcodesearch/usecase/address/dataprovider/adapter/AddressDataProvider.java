@@ -10,4 +10,6 @@ public interface AddressDataProvider {
     boolean existsById(Long id);
     Optional<Address> findByZipCode(String zipCode);
     Optional<Address> save(Address address);
+    Optional<Address> findById(Long addressId);
+    void delete(Long addressId);
 }

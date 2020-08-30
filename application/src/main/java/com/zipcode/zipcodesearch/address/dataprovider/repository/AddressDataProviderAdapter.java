@@ -44,4 +44,16 @@ public class AddressDataProviderAdapter implements AddressDataProvider {
         return this.addressConverter.addressDataToAddress(addressData);
     }
 
+    @Override
+    public Optional<Address> findById(Long addressId) {
+        return this.addressRepository.findById(addressId)
+                .map((addressData) -> this.addressConverter.addressDataToAddress(addressData))
+                .orElse(Optional.empty());
+    }
+
+    @Override
+    public void delete(Long addressId) {
+        this.addressRepository.deleteById(addressId);
+    }
+
 }

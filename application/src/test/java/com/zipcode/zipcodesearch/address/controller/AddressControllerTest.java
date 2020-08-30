@@ -222,18 +222,6 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void testDeleteAddressThrowInvalidZipCodeException() throws Exception {
-        Long addressId = 1234L;
-
-        doThrow(InvalidZipCodeException.class).when(this.addressService).delete(addressId);
-
-        this.mockMvc.perform(delete("/address/" + addressId))
-                .andExpect(status().isBadRequest());
-
-        verify(this.addressService, times(1)).delete(addressId);
-    }
-
-    @Test
     public void testDeleteAddressThrowAddressNotFoundException() throws Exception {
         Long addressId = 1234L;
 

@@ -177,4 +177,30 @@ public class AddressUseCaseImplTest {
         assertEquals(addressListExpected, addressListActual);
     }
 
+    @Test
+    public void testDelete() {
+        Long addressId = 2345678L;
+        Optional<Address> addressExpected = this.mockAddress();
+
+        when(addressDataProvider.findById(addressId)).thenReturn(addressExpected);
+
+        this.addressUseCaseImpl.delete(addressId);
+
+        verify(this.addressDataProvider, times(1)).delete(addressId);
+
+    }
+
+    @Test
+    public void testFindById() {
+        Long addressId = 2345678L;
+        Optional<Address> addressExpected = this.mockAddress();
+
+        when(addressDataProvider.findById(addressId)).thenReturn(addressExpected);
+
+        Optional<Address> addressActual = this.addressUseCaseImpl.findById(addressId);
+
+        verify(this.addressDataProvider, times(1)).findById(addressId);
+
+        assertEquals(addressExpected, addressActual);
+    }
 }

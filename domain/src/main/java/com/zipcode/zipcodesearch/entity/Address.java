@@ -88,20 +88,4 @@ public class Address {
                 zipCode.equals(address.zipCode);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, state, city, district, street, zipCode);
-    }
-
-    @Override
-    public String toString() {
-        return "Address{" +
-                "id=" + id +
-                ", state='" + state + '\'' +
-                ", city='" + city + '\'' +
-                ", district='" + district + '\'' +
-                ", street='" + street + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                '}';
-    }
 }

@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +28,15 @@ public class AddressController {
         this.addressService = addressService;
     }
 
+    @ApiOperation(
+            value = "List all addresses"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "Listed addresses"),
+                    @ApiResponse(code = 500, message = "Some problem occurred on the server")
+            }
+    )
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AddressDTO>> listAll() {
         return AddressResponseUtil.buildAddressListSuccessResponse(this.addressService.listAll());
@@ -48,7 +56,7 @@ public class AddressController {
             }
     )
     @GetMapping(path = "/zipcode/{zipcode}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AddressDTO> findByZipCode(@PathVariable("zipcode") String zipCode) {
+    public ResponseEntity<Void> findByZipCode(@PathVariable("zipcode") String zipCode) {
 
         Optional<AddressDTO> addressDTO = this.addressService.findByZipCode(zipCode);
 
@@ -57,22 +65,54 @@ public class AddressController {
         return AddressResponseUtil.buildAddressNotFoundResponse(zipCode);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<URI> save(@RequestBody @Valid AddressDTO addressDTO) {
+    @ApiOperation(
+            value = "Create new address",
+            notes = "In case of success, a URL is added to the Location header that allows the search for the newly created address"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 201, message = "Address created"),
+                    @ApiResponse(code = 400, message = "Invalid Zip Code or missing required fields"),
+                    @ApiResponse(code = 500, message = "Some problem occurred on the server")
+            }
+    )
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> save(@RequestBody @Valid AddressDTO addressDTO) {
         AddressDTO newAddress = this.addressService.save(addressDTO).get();
 
         return AddressResponseUtil.buildAddressCreatedResponse(newAddress, serverPort);
     }
 
+    @ApiOperation(
+            value = "Update address",
+            notes = "The updated address is returned in the body"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "Address updated"),
+                    @ApiResponse(code = 400, message = "Invalid Zip Code or missing required fields or address not found"),
+                    @ApiResponse(code = 500, message = "Some problem occurred on the server")
+            }
+    )
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity update(@PathVariable("id") Long addressId, @RequestBody @Valid AddressDTO addressDTO) {
+    public ResponseEntity<AddressDTO> update(@PathVariable("id") Long addressId, @RequestBody @Valid AddressDTO addressDTO) {
         AddressDTO newAddress = this.addressService.update(addressId, addressDTO).get();
 
         return AddressResponseUtil.buildAddressUpdatedResponse(newAddress);
     }
 
+    @ApiOperation(
+            value = "Delete address"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "Address deleted"),
+                    @ApiResponse(code = 400, message = "Address not found"),
+                    @ApiResponse(code = 500, message = "Some problem occurred on the server")
+            }
+    )
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity delete(@PathVariable("id") Long addressId) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long addressId) {
         this.addressService.delete(addressId);
         return AddressResponseUtil.buildAddressDeletedResponse(addressId);
     }

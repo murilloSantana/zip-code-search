@@ -66,6 +66,7 @@ public class AddressServiceImpl implements AddressService {
         if(!address.isPresent()) throw new AddressNotFoundException("Endereço não encontrado");
 
         this.addressUseCase.delete(addressId);
+
         cacheManager.getCache(addressCacheName).evictIfPresent(address.get().getZipCode());
     }
 
@@ -77,4 +78,7 @@ public class AddressServiceImpl implements AddressService {
         this.addressUseCase = addressUseCase;
     }
 
+    public void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
 }

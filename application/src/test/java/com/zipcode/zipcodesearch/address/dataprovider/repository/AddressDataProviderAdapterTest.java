@@ -87,4 +87,44 @@ public class AddressDataProviderAdapterTest {
         assertEquals(address, addressActual);
     }
 
+    @Test
+    public void testFoundAddressById() {
+        Long addressId = 2345678L;
+
+        Optional<AddressData> addressData = this.mockAddressData();
+        Optional<Address> addressExpected = this.mockAddress();
+
+        when(this.addressRepository.findById(addressId)).thenReturn(addressData);
+        when(this.addressConverter.addressDataToAddress(addressData.get())).thenReturn(addressExpected);
+
+        Optional<Address> addressActual = this.addressDataProviderAdapter.findById(addressId);
+
+        verify(this.addressRepository, times(1)).findById(addressId);
+        verify(this.addressConverter, times(1)).addressDataToAddress(addressData.get());
+
+        assertEquals(addressExpected, addressActual);
+    }
+
+    @Test
+    public void testNotFoundAddressById() {
+        Long addressId = 2345678L;
+
+        when(this.addressRepository.findById(addressId)).thenReturn(Optional.empty());
+
+        Optional<Address> addressActual = this.addressDataProviderAdapter.findById(addressId);
+
+        verify(this.addressRepository, times(1)).findById(addressId);
+        verify(this.addressConverter, times(0)).addressDataToAddress(any(AddressData.class));
+
+        assertEquals(Optional.empty(), addressActual);
+    }
+
+    @Test
+    public void testDeleteAddressById() {
+        Long addressId = 2345678L;
+
+        this.addressDataProviderAdapter.delete(addressId);
+
+        verify(this.addressRepository, times(1)).deleteById(addressId);
+    }
 }
