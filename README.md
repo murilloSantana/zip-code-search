@@ -60,9 +60,9 @@ O domínio é o coração de qualquer aplicação e por isso merece um tópico e
 * **Use case**: Contém as regras de negócio da aplicação, eles são a porta de entrada do domínio e são acessíveis apenas via abstrações.
 		
 ### Autenticação e autorização
-Para ter acesso as APIs privadas da aplicação o client deve primeiro se autenticar fazendo uma requisição (POST) ao 
+Para ter acesso às APIs privadas da aplicação o client deve primeiro se autenticar fazendo uma requisição (POST) ao 
 endereço http://localhost:8080/api/authenticate, também devem ser incluídos dois headers na requisição: 
-o **x-api-key** (identificador necessário para o client ser reconhecido como confiável) e o **email** 
+o **x-api-key** (identificador necessário para o client ser reconhecido como confiável. Seu valor é 2345678) e o **email** 
 (e-mail do responsável pelo client). Após a requisição ser finalizada com sucesso, o zip-code-search vai adicionar 
 na resposta o header **authorization**, esse header vai conter um código de autorização que é válido por 60 minutos. O client
 deve adicionar esse header em suas requisicões para ter acesso as APIs do zip-code-search.

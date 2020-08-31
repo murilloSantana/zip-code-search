@@ -1,6 +1,5 @@
 package com.zipcode.zipcodesearch.security.filter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zipcode.zipcodesearch.security.model.ApiKeyAuthenticationToken;
 import com.zipcode.zipcodesearch.security.service.JWTService;
 import org.springframework.http.HttpMethod;
