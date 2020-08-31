@@ -30,15 +30,24 @@ public class JWTService implements Serializable {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
+    private String addTokenPrefix(String token) {
+        return "Bearer " + token;
+    }
+
+    private String removeTokenPrefix(String token) {
+        return token.substring(7);
+    }
+
     public String generateToken(ApiKeyAuthenticationToken apiKeyAuthenticationToken) {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-
-        return JWT.create()
+        String authorizationToken = JWT.create()
                 .withClaim("apiKey", apiKeyAuthenticationToken.getPrincipal().toString())
                 .withClaim("email", apiKeyAuthenticationToken.getCredentials().toString())
                 .withExpiresAt(this.generateExpirationTime())
                 .withIssuer("auth0")
                 .sign(algorithm);
+
+        return this.addTokenPrefix(authorizationToken);
     }
 
     public ApiKeyAuthenticationToken getAuthenticationRequestByToken(String authorizationToken) {
@@ -48,7 +57,7 @@ public class JWTService implements Serializable {
                     .withIssuer("auth0")
                     .build();
 
-            DecodedJWT jwt = verifier.verify(authorizationToken);
+            DecodedJWT jwt = verifier.verify(this.removeTokenPrefix(authorizationToken));
             String apiKey = jwt.getClaim("apiKey").asString();
             String email = jwt.getClaim("email").asString();
 

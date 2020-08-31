@@ -40,7 +40,7 @@ public class ApiKeyFilter extends AbstractAuthenticationProcessingFilter {
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain,
-            Authentication auth) throws JsonProcessingException {
+            Authentication auth) {
 
         String authorizationToken = jwtService
                 .generateToken(new ApiKeyAuthenticationToken(this.apiKey, this.email, Collections.emptyList()));

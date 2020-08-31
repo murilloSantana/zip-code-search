@@ -37,7 +37,7 @@ public class JWTServiceTest {
                 .withIssuer("auth0")
                 .build();
 
-        return verifier.verify(authorizationToken);
+        return verifier.verify(authorizationToken.substring(7));
     }
 
     private String mockToken(String apiKey, String email) {
