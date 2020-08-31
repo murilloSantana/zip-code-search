@@ -1,5 +1,6 @@
 package com.zipcode.zipcodesearch.security.filter;
 
+import com.google.common.base.Strings;
 import com.zipcode.zipcodesearch.security.service.JWTService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,9 +26,11 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String authorizationToken = httpServletRequest.getHeader("authorization");
 
-        Authentication authentication = jwtService.getAuthenticationRequestByToken(authorizationToken);
+        if(!Strings.isNullOrEmpty(authorizationToken)){
+            Authentication authentication = jwtService.getAuthenticationRequestByToken(authorizationToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(request, response);
     }
 

@@ -5,6 +5,7 @@ import com.zipcode.zipcodesearch.address.controller.dto.AddressDTO;
 import com.zipcode.zipcodesearch.address.service.AddressService;
 import com.zipcode.zipcodesearch.entity.AddressNotFoundException;
 import com.zipcode.zipcodesearch.entity.InvalidZipCodeException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,9 +42,12 @@ public class AddressControllerTest {
     @MockBean
     private AddressService addressService;
 
+    private HttpHeaders authorizationHeaderMock;
+
     @BeforeEach
     public void setUp() {
         this.objectMapper = new ObjectMapper();
+        this.authorizationHeaderMock = buildAuthorizationHeader(this.mockMvc);
     }
 
     public Optional<AddressDTO> mockAddressDTO() {
@@ -58,13 +64,35 @@ public class AddressControllerTest {
         return Arrays.asList(firstAddress, secondAddress);
     }
 
+    public static HttpHeaders buildAuthorizationHeader(MockMvc mockMvc) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("x-api-key", "2345678");
+        httpHeaders.add("email", "mock.user@gmail.com");
+
+        try {
+            MvcResult authenticateResponse = mockMvc.perform(post("/authenticate").headers(httpHeaders))
+                    .andExpect(status().isOk())
+                    .andReturn();
+
+            HttpHeaders authorizationHeader = new HttpHeaders();
+            authorizationHeader.add("authorization",
+                    authenticateResponse.getResponse().getHeader("authorization"));
+
+            return authorizationHeader;
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+
     @Test
     public void testListAllAddresses() throws Exception {
         List<AddressDTO> addressDTOList = this.mockAddressDTOList();
 
         when(addressService.listAll()).thenReturn(addressDTOList);
 
-        this.mockMvc.perform(get("/address"))
+        this.mockMvc.perform(get("/address").headers(this.authorizationHeaderMock))
                 .andExpect(status().isOk())
                 .andExpect(content().string(this.objectMapper.writeValueAsString(addressDTOList)));;
     }
@@ -73,7 +101,7 @@ public class AddressControllerTest {
     public void testListAllAddressesThrowError() throws Exception {
         when(addressService.listAll()).thenThrow(RuntimeException.class);;
 
-        this.mockMvc.perform(get("/address"))
+        this.mockMvc.perform(get("/address").headers(this.authorizationHeaderMock))
                 .andExpect(status().isInternalServerError());
     }
 
@@ -83,7 +111,7 @@ public class AddressControllerTest {
 
         when(addressService.findByZipCode(zipCode)).thenReturn(Optional.empty());
 
-        this.mockMvc.perform(get("/address/zipcode/" + zipCode))
+        this.mockMvc.perform(get("/address/zipcode/" + zipCode).headers(this.authorizationHeaderMock))
                 .andExpect(status().isNotFound());
     }
 
@@ -93,7 +121,7 @@ public class AddressControllerTest {
 
         when(addressService.findByZipCode(zipCode)).thenReturn(this.mockAddressDTO());
 
-        this.mockMvc.perform(get("/address/zipcode/" + zipCode))
+        this.mockMvc.perform(get("/address/zipcode/" + zipCode).headers(this.authorizationHeaderMock))
                 .andExpect(status().isOk())
                 .andExpect(content().string(this.objectMapper.writeValueAsString(this.mockAddressDTO().get())));
     }
@@ -104,7 +132,7 @@ public class AddressControllerTest {
 
         when(addressService.findByZipCode(zipCode)).thenThrow(RuntimeException.class);
 
-        this.mockMvc.perform(get("/address/zipcode/" + zipCode))
+        this.mockMvc.perform(get("/address/zipcode/" + zipCode).headers(this.authorizationHeaderMock))
                 .andExpect(status().isInternalServerError());
     }
 
@@ -114,7 +142,7 @@ public class AddressControllerTest {
 
         when(addressService.findByZipCode(zipCode)).thenThrow(InvalidZipCodeException.class);
 
-        this.mockMvc.perform(get("/address/zipcode/" + zipCode))
+        this.mockMvc.perform(get("/address/zipcode/" + zipCode).headers(this.authorizationHeaderMock))
                 .andExpect(status().isBadRequest());
     }
 
@@ -124,7 +152,9 @@ public class AddressControllerTest {
         String parsedAddressDTO = this.objectMapper.writeValueAsString(addressDTO.get());
         when(addressService.save(addressDTO.get())).thenReturn(addressDTO);
 
-        this.mockMvc.perform(post("/address").content(parsedAddressDTO).header("content-type", "application/json"))
+        this.mockMvc.perform(post("/address")
+                .content(parsedAddressDTO)
+                .header("content-type", "application/json").headers(this.authorizationHeaderMock))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "http://localhost:8080/address/zipcode/22230060"));
     }
@@ -135,7 +165,8 @@ public class AddressControllerTest {
         String parsedAddressDTO = this.objectMapper.writeValueAsString(addressDTO.get());
         when(addressService.save(addressDTO.get())).thenThrow(RuntimeException.class);
 
-        this.mockMvc.perform(post("/address").content(parsedAddressDTO).header("content-type", "application/json"))
+        this.mockMvc.perform(post("/address").content(parsedAddressDTO)
+                .header("content-type", "application/json").headers(this.authorizationHeaderMock))
                 .andExpect(status().isInternalServerError());
     }
 
@@ -145,7 +176,8 @@ public class AddressControllerTest {
         String parsedAddressDTO = this.objectMapper.writeValueAsString(addressDTO.get());
         when(addressService.save(addressDTO.get())).thenThrow(InvalidZipCodeException.class);
 
-        this.mockMvc.perform(post("/address/").content(parsedAddressDTO).header("content-type", "application/json"))
+        this.mockMvc.perform(post("/address/").content(parsedAddressDTO)
+                .header("content-type", "application/json").headers(this.authorizationHeaderMock))
                 .andExpect(status().isBadRequest());
     }
 
@@ -157,7 +189,9 @@ public class AddressControllerTest {
         String parsedAddressDTO = this.objectMapper.writeValueAsString(addressDTO.get());
         when(addressService.update(addressId, addressDTO.get())).thenReturn(addressDTO);
 
-        this.mockMvc.perform(put("/address/" + addressId).content(parsedAddressDTO).header("content-type", "application/json"))
+        this.mockMvc.perform(put("/address/" + addressId)
+                .content(parsedAddressDTO).header("content-type", "application/json")
+                .headers(this.authorizationHeaderMock))
                 .andExpect(status().isOk())
                 .andExpect(content().string(parsedAddressDTO));
     }
@@ -170,7 +204,9 @@ public class AddressControllerTest {
         String parsedAddressDTO = this.objectMapper.writeValueAsString(addressDTO.get());
         when(addressService.update(addressId, addressDTO.get())).thenThrow(RuntimeException.class);
 
-        this.mockMvc.perform(put("/address/" + addressId).content(parsedAddressDTO).header("content-type", "application/json"))
+        this.mockMvc.perform(put("/address/" + addressId).content(parsedAddressDTO)
+                .header("content-type", "application/json")
+                .headers(this.authorizationHeaderMock))
                 .andExpect(status().isInternalServerError());
     }
 
@@ -182,7 +218,9 @@ public class AddressControllerTest {
         String parsedAddressDTO = this.objectMapper.writeValueAsString(addressDTO.get());
         when(addressService.update(addressId, addressDTO.get())).thenThrow(InvalidZipCodeException.class);
 
-        this.mockMvc.perform(put("/address/" + addressId).content(parsedAddressDTO).header("content-type", "application/json"))
+        this.mockMvc.perform(put("/address/" + addressId)
+                .content(parsedAddressDTO)
+                .header("content-type", "application/json").headers(this.authorizationHeaderMock))
                 .andExpect(status().isBadRequest());
     }
 
@@ -194,7 +232,8 @@ public class AddressControllerTest {
         String parsedAddressDTO = this.objectMapper.writeValueAsString(addressDTO.get());
         when(addressService.update(addressId, addressDTO.get())).thenThrow(AddressNotFoundException.class);
 
-        this.mockMvc.perform(put("/address/" + addressId).content(parsedAddressDTO).header("content-type", "application/json"))
+        this.mockMvc.perform(put("/address/" + addressId).content(parsedAddressDTO)
+                .header("content-type", "application/json").headers(this.authorizationHeaderMock))
                 .andExpect(status().isBadRequest());
     }
 
@@ -202,7 +241,7 @@ public class AddressControllerTest {
     public void testDeleteAddress() throws Exception {
         Long addressId = 1234L;
 
-        this.mockMvc.perform(delete("/address/" + addressId))
+        this.mockMvc.perform(delete("/address/" + addressId).headers(this.authorizationHeaderMock))
                 .andExpect(status().isOk());
 
         verify(this.addressService, times(1)).delete(addressId);
@@ -214,7 +253,7 @@ public class AddressControllerTest {
 
         doThrow(RuntimeException.class).when(this.addressService).delete(addressId);
 
-        this.mockMvc.perform(delete("/address/" + addressId))
+        this.mockMvc.perform(delete("/address/" + addressId).headers(this.authorizationHeaderMock))
                 .andExpect(status().isInternalServerError());
 
         verify(this.addressService, times(1)).delete(addressId);
@@ -227,7 +266,7 @@ public class AddressControllerTest {
 
         doThrow(AddressNotFoundException.class).when(this.addressService).delete(addressId);
 
-        this.mockMvc.perform(delete("/address/" + addressId))
+        this.mockMvc.perform(delete("/address/" + addressId).headers(this.authorizationHeaderMock))
                 .andExpect(status().isBadRequest());
 
         verify(this.addressService, times(1)).delete(addressId);
