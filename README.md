@@ -85,7 +85,7 @@ Os logs estão estruturados em formato json e salvos em dois arquivos: um para l
     --header 'x-api-key: 2345678'
     --header 'email: [EMAIL]'
     ```
-- Swagger da aplicação
+- Swagger da aplicação (é aconselhavel acessar o endpoint em algum browser, já que seu resultado será uma página HTML)
     ```
     curl --location --request GET 'http://localhost:8080/api/documentation'
     ```
