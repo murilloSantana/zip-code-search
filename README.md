@@ -8,6 +8,7 @@
 - [Camadas](#camadas)
 - [Arquitetura](#arquitetura)
 - [Domínio](#domínio)
+- [Autenticação e autorização](#autenticação-e-autorização)
 - [Logs](#logs)
 - [Endpoints Disponíveis](#endpoints-disponiveis)
 - [Requisições HTTP](#requisições-http)
