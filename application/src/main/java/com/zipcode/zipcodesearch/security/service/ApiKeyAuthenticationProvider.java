@@ -31,4 +31,8 @@ public class ApiKeyAuthenticationProvider implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return authentication.equals(ApiKeyAuthenticationToken.class);
     }
+
+    public void setServerApiKey(String serverApiKey) {
+        this.serverApiKey = serverApiKey;
+    }
 }
