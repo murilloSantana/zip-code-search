@@ -1,4 +1,4 @@
-package com.zipcode.zipcodesearch.documentation;
+package com.zipcode.zipcodesearch.documentation.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

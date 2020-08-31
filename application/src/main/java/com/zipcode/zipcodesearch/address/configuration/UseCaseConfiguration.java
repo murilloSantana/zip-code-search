@@ -1,4 +1,4 @@
-package com.zipcode.zipcodesearch.configuration;
+package com.zipcode.zipcodesearch.address.configuration;
 
 import com.zipcode.zipcodesearch.usecase.address.dataprovider.adapter.AddressDataProvider;
 import com.zipcode.zipcodesearch.usecase.address.dataprovider.AddressUseCase;
