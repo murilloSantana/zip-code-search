@@ -5,7 +5,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zipcode.zipcodesearch.security.model.ApiKeyAuthenticationToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,6 @@ public class JWTService implements Serializable {
 
     public static final long JWT_TOKEN_TTL_IN_MINUTES = 10;
 
-
     @Value("${server.authentication.jwt.secret}")
     private String secretKey;
 
@@ -32,7 +30,7 @@ public class JWTService implements Serializable {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
-    public String generateToken(ApiKeyAuthenticationToken apiKeyAuthenticationToken) throws JsonProcessingException {
+    public String generateToken(ApiKeyAuthenticationToken apiKeyAuthenticationToken) {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         return JWT.create()
@@ -49,13 +47,18 @@ public class JWTService implements Serializable {
             JWTVerifier verifier = JWT.require(algorithm)
                     .withIssuer("auth0")
                     .build();
+
             DecodedJWT jwt = verifier.verify(authorizationToken);
             String apiKey = jwt.getClaim("apiKey").asString();
             String email = jwt.getClaim("email").asString();
 
             return new ApiKeyAuthenticationToken(apiKey, email, Collections.emptyList());
         } catch (JWTVerificationException e) {
-            throw new RuntimeException("Expired or invalid JWT token");
+            throw new JWTVerificationException("Expired or invalid JWT token");
         }
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
     }
 }
