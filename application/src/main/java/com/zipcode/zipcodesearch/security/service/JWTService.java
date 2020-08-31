@@ -20,7 +20,7 @@ public class JWTService implements Serializable {
 
     private static final long serialVersionUID = -2120185165687788488L;
 
-    public static final long JWT_TOKEN_TTL_IN_MINUTES = 10;
+    public static final long JWT_TOKEN_TTL_IN_MINUTES = 60;
 
     @Value("${server.authentication.jwt.secret}")
     private String secretKey;

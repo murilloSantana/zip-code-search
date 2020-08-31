@@ -59,6 +59,18 @@ O domínio é o coração de qualquer aplicação e por isso merece um tópico e
 * **Busca de CEP**: Os critérios para busca de CEP funcionam como um conjunto de regras em sequência, que devem ter sua execução interrompida quando necessário. O padrão chain of responsibility se encaixa nessas características e por isso foi escolhido como estratégia para implementação da busca do CEP.
 * **Use case**: Contém as regras de negócio da aplicação, eles são a porta de entrada do domínio e são acessíveis apenas via abstrações.
 		
+### Autenticação e autorização
+Para ter acesso as APIs privadas da aplicação o client deve primeiro se autenticar fazendo uma requisição (POST) ao 
+endereço http://localhost:8080/api/authenticate, também devem ser incluídos dois headers na requisição: 
+o **x-api-key** (identificador necessário para o client ser reconhecido como confiável) e o **email** 
+(e-mail do responsável pelo client). Após a requisição ser finalizada com sucesso, o zip-code-search vai adicionar 
+na resposta o header **authorization**, esse header vai conter um código de autorização que é válido por 60 minutos. O client
+deve adicionar esse header em suas requisicões para ter acesso as APIs do zip-code-search.
+
+
+
+![autenticação e autorização](doc/authentication.png)
+
 ### Logs
 Os logs estão estruturados em formato json e salvos em dois arquivos: um para logs comuns e outro para errors e warning. Segue um exemplo da estrutura:
 
@@ -66,6 +78,12 @@ Os logs estão estruturados em formato json e salvos em dois arquivos: um para l
 	
 ### Endpoints disponiveis
 ##### OBS: Todos os itens dentro de colchetes devem ser substituídos pelos valores desejados (não esqueça de escapar as strings)
+- Autentica o client
+    ```
+    curl --location --request POST 'http://localhost:8080/api/authenticate'
+    --header 'x-api-key: 2345678'
+    --header 'email: [EMAIL]'
+    ```
 - Swagger da aplicação
     ```
     curl --location --request GET 'http://localhost:8080/api/documentation'
